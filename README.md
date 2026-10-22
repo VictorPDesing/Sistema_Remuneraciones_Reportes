@@ -1,4 +1,4 @@
-# Rendimiento del personal — Construct&Lex / A&SG SAC
+# Rendimiento del personal —  / A&SG SAC
 
 Proyecto académico de Inteligencia de Negocios para analizar asistencia y cumplimiento de tareas de diez trabajadores durante julio, agosto y septiembre de 2026. La solución separa el registro operativo del análisis: SQL Server almacena el origen, un procedimiento ETL carga el Data Mart y Power BI consulta sus vistas.
 
@@ -7,7 +7,6 @@ El esquema transaccional procede del material proporcionado para el caso. Los re
 ## Arquitectura
 
 ```mermaid
-flowchart LR
     A["A&SG_OLTP: empleados, asistencia, tareas y proyectos"] --> B["usp_cargar_rendimiento: extracción, limpieza y transformación"]
     B --> C["A&SG_DataMart: dimensiones y hechos"]
     B --> D["Bitácora y registros rechazados"]
@@ -16,8 +15,7 @@ flowchart LR
 ```
 
 ## Requisitos
-
-- SQL Server 2016 SP1 o posterior; se recomienda SQL Server 2022 o 2025 Developer para el trabajo académico.
+- Se recomienda SQL Server 2022 o 2025 Developer para el trabajo académico.
 - SQL Server Management Studio y Power BI Desktop en Windows.
 - Ambas bases en la misma instancia de SQL Server.
 - Para instalar: permisos de creación de bases, tablas, procedimientos y vistas. Para ejecutar el ETL: lectura del origen y escritura en el Data Mart. Usar una cuenta de solo lectura para Power BI cuando se configure el acceso definitivo.
