@@ -46,6 +46,13 @@
 - Se añadió una página propuesta de bono por efectividad con base y porcentaje referenciales explícitos, junto con sus medidas DAX. Los visuales y las medidas quedan pendientes de comprobar en Power BI Desktop.
 - Comprobación en SQL Server: conservación de identificadores de asistencia y tarea, fechas y estados; segunda ejecución de la alineación sin duplicados; recarga del Data Mart con el padrón de origen.
 
+## Etapa 5 — Lectura de indicadores
+
+- Se añadió un diccionario de tarjetas y medidas auxiliares con fórmulas, interpretación y sentido de mejora.
+- Se documentó la lectura de los filtros y el ejemplo de Edu Cruz en septiembre: 22 asistencias, 22 tareas, ICT 59,09% e IEP 79,55.
+- Se incluyeron frases de apoyo para la demostración y la distinción entre cumplimiento sin observaciones, finalización y entrega fuera de plazo.
+- No se modificaron los scripts SQL ni las medidas DAX.
+
 ## Registro de aportes y evidencias
 
 Después de cada aporte real, agregar una entrada con integrante, archivos, cambio, validación y referencia al commit o pull request. Las revisiones se registran desde la cuenta de quien las realiza.
