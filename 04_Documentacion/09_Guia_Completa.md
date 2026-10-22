@@ -125,6 +125,8 @@ Configurar `fecha` como Fecha. Ordenar `nombre_mes` por `mes` y `nombre_dia` por
 
 ## 8. Medidas DAX
 
+El significado de cada tarjeta, sus fórmulas, las medidas auxiliares y un ejemplo de interpretación están en [11_Indicadores_Dashboard.md](11_Indicadores_Dashboard.md).
+
 Abrir [Medidas_PowerBI.dax](Medidas_PowerBI.dax). En Power BI, seleccionar **Modelado → Nueva medida** y crear una definición por vez. No pegar todo el archivo en una sola medida. Si la configuración regional exige punto y coma, sustituir las comas de argumentos por `;`.
 
 Crear las medidas de cantidades del archivo antes de TPA, ICT, TDT e IEP. Las fórmulas principales son:
