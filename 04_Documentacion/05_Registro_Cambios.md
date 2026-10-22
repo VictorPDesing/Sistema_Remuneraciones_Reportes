@@ -35,6 +35,17 @@
 - Validación: actualización del procedimiento y las vistas sobre una instalación anterior, creación del Data Mart nuevo, cargas repetidas y comparación de los treinta resúmenes mensuales. Las cantidades e indicadores coinciden con la versión anterior. Se verificaron de nuevo los controles de calidad y la carga parcial.
 - Resultados: `Evidencias/02_Resultados_Version_Simplificada.txt`. Siguen pendientes el `.pbix` y la captura del diagrama en la instancia local de SSMS.
 
+## Etapa 4 — Padrón de trabajadores
+
+- Rama: `feature/personal-origen`.
+- Se alinearon nombres, identificadores de empleado y trabajador, cargos, códigos y roles con el padrón original proporcionado.
+- Se añadió `01_Base_Datos/03_Alinear_Personal_Origen.sql` para actualizar las instalaciones existentes sin eliminar asistencias ni tareas. El trabajador 5 conserva el histórico del registro anterior correspondiente.
+- Se actualizó el generador para nuevas instalaciones. No se copian del archivo adjunto PIN, correos ni teléfonos.
+- El ETL identifica las jornadas de practicantes mediante los trabajadores 2, 9 y 11, porque el origen solo distingue trabajador y administrador.
+- Se actualizaron las evidencias y la guía completa. La validación muestra diez personas y treinta resúmenes mensuales; los resultados vigentes están en `Evidencias/03_Resultados_Padron_Origen.txt`.
+- Se añadió una página propuesta de bono por efectividad con base y porcentaje referenciales explícitos, junto con sus medidas DAX. Los visuales y las medidas quedan pendientes de comprobar en Power BI Desktop.
+- Comprobación en SQL Server: conservación de identificadores de asistencia y tarea, fechas y estados; segunda ejecución de la alineación sin duplicados; recarga del Data Mart con el padrón de origen.
+
 ## Registro de aportes y evidencias
 
 Después de cada aporte real, agregar una entrada con integrante, archivos, cambio, validación y referencia al commit o pull request. Las revisiones se registran desde la cuenta de quien las realiza.

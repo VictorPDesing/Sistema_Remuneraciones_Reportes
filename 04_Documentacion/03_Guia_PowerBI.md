@@ -83,7 +83,11 @@ Segmentadores: año, mes, trabajador, proyecto y administrador.
 
 En esta página filtrar `id_proyecto > 0` para ocultar el miembro técnico de asistencia. No mostrar TPA, horas de permanencia ni IEP por proyecto: no existe una atribución de asistencia a proyectos en el origen. El IEP queda vacío al no haber asistencias en un filtro de proyecto real.
 
-### 4. Calidad de carga
+### 4. Simulación de bono por efectividad
+
+Construir la comparación entre mayor y menor IEP con [10_Ejemplo_Remuneracion.md](10_Ejemplo_Remuneracion.md). La base y el bono son valores referenciales declarados; no sueldos reales. Las medidas están en `04_Documentacion/Remuneracion_Referencial.dax`.
+
+### 5. Calidad de carga
 
 Opcionalmente cargar `vw_calidad_cargas` y mostrar el identificador, inicio, fin, estado, cantidades extraídas, rechazadas y cargadas. Mostrar la última ejecución y conservar las anteriores como evidencia de repetición. Esta tabla no participa en los cálculos de rendimiento.
 

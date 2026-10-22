@@ -1,5 +1,7 @@
 # Orden de ejecución
 
+La guía de principio a fin, con el padrón y las páginas de Power BI, está en [09_Guia_Completa.md](09_Guia_Completa.md).
+
 ## Archivos
 
 | Carpeta | Contenido |
@@ -20,9 +22,11 @@ Abrir una consulta nueva en SSMS y ejecutar los archivos completos en este orden
 
 La creación del Data Mart se ejecuta **una sola vez**. Contiene `CREATE DATABASE` y `CREATE TABLE` directos; si la base ya existe, no volver a ejecutar ese archivo. Los scripts de procedimiento y vistas usan `CREATE OR ALTER` para poder actualizarlos.
 
-## Si ya está instalado el Data Mart anterior
+## Si ya está instalado el Data Mart
 
-Se conservan las tablas y sus columnas. Ejecutar únicamente los pasos 2, 3 y 4 para actualizar el procedimiento y las vistas. No borrar bases ni tablas. No es necesario volver a ejecutar el origen.
+Se conservan las tablas y sus columnas. No borrar bases ni volver a ejecutar la creación.
+
+Para alinear una instalación anterior con el padrón original, seguir [08_Padron_Trabajadores.md](08_Padron_Trabajadores.md): actualizar primero el procedimiento ETL, ejecutar `01_Base_Datos/03_Alinear_Personal_Origen.sql` y después la validación. El script de alineación está destinado a instalaciones existentes; no hace falta ejecutarlo al crear desde cero con el generador actual.
 
 Para actualizar los datos después:
 

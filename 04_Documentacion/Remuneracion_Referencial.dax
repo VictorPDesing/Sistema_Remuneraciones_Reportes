@@ -1,0 +1,17 @@
+Sueldo base referencial = 1500
+
+Porcentaje maximo de bono = 0.20
+
+Bono referencial =
+IF(
+	HASONEVALUE(vw_dim_trabajador[id_trabajador]) && NOT(ISBLANK([IEP])),
+	ROUND([Sueldo base referencial] * [Porcentaje maximo de bono] * [IEP] / 100, 2),
+	BLANK()
+)
+
+Remuneracion referencial =
+IF(
+	HASONEVALUE(vw_dim_trabajador[id_trabajador]) && NOT(ISBLANK([IEP])),
+	[Sueldo base referencial] + [Bono referencial],
+	BLANK()
+)

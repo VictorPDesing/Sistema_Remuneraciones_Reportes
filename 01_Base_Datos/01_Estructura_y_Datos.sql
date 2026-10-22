@@ -271,7 +271,7 @@ BEGIN TRY
 
 	DECLARE @roles TABLE (id_rol int, nombre nvarchar(50));
 	INSERT INTO @roles VALUES
-		(1, N'Administrador'), (2, N'Trabajador'), (3, N'Practicante');
+		(1, N'Trabajador'), (2, N'Administrador');
 
 	IF EXISTS (
 		SELECT 1 FROM dbo.Roles_Sistema r
@@ -289,20 +289,20 @@ BEGIN TRY
 	SET @tabla_identidad = NULL;
 
 	DECLARE @personal TABLE (
-		id_empleado int, nombre nvarchar(150), cargo nvarchar(100), id_rol int
+		id_empleado int, id_trabajador int, nombre nvarchar(150), cargo nvarchar(100), codigo nvarchar(20), id_rol int
 	);
 	INSERT INTO @personal VALUES
-		(1, N'Adonis', N'Analista de proyectos', 2),
-		(2, N'Benjamin Alfonso', N'Practicante de sistemas', 3),
-		(3, N'Celeste', N'Asistente de proyectos', 2),
-		(4, N'Fernando Carhuatanta', N'Asistente de ingeniería', 2),
-		(5, N'Administrador General', N'Administrador', 1),
-		(6, N'Diego Garrido', N'Analista de sistemas', 2),
-		(7, N'Victor Paredes', N'Asistente de operaciones', 2),
-		(8, N'Luis Obregón', N'Asistente de obra', 2),
-		(9, N'Israel', N'Practicante de operaciones', 3),
-		(10, N'Carlos Mendoza', N'Asistente de logística', 2),
-		(11, N'Matías', N'Practicante de ingeniería', 3);
+		(1, NULL, N'Administrador General', N'Administrador', NULL, 2),
+		(2, 1, N'Adonis Vasquez', N'Arquitecto', N'EM0038', 1),
+		(3, 2, N'Benjamin Alfonso', N'Ingeniero de Sistemas', N'EM0014', 1),
+		(4, 3, N'Celeste Lechuga', N'Arquitecta', N'EM0030', 1),
+		(6, 5, N'Marco Coila', N'Arquitecto', N'EM0009', 1),
+		(7, 6, N'Kevin Vega', N'Abogado', N'EM0003', 1),
+		(8, 7, N'Fiorella Alarcon', N'Abogada', N'EM0011', 1),
+		(9, 8, N'Alejandro Guzman', N'Arquitecto', N'EM0029', 1),
+		(10, 9, N'Israel Rodrigo Ochoa Mejia', N'Ingeniero', N'EM0099', 1),
+		(11, 10, N'Edu Cruz', N'Ingeniero Clivil', N'EM0005', 1),
+		(12, 11, N'Matias Sebastian Moreno Rodriguez', N'Sistemas', N'EM0015', 1);
 
 	IF EXISTS (
 		SELECT 1 FROM dbo.Empleados e
@@ -321,8 +321,8 @@ BEGIN TRY
 
 	IF EXISTS (
 		SELECT 1 FROM dbo.Trabajadores t
-		JOIN @personal p ON p.id_empleado = t.ID_Trabajador
-		WHERE p.id_rol <> 1 AND (t.ID_Empleado <> p.id_empleado OR t.ID_Rol <> p.id_rol)
+		JOIN @personal p ON p.id_trabajador = t.ID_Trabajador
+		WHERE t.ID_Empleado <> p.id_empleado OR t.ID_Rol <> p.id_rol
 	)
 		THROW 50003, N'Los identificadores de trabajadores no coinciden con el personal.', 1;
 
@@ -331,22 +331,21 @@ BEGIN TRY
 	INSERT INTO dbo.Trabajadores (
 		ID_Trabajador, ID_Empleado, Rol_Cargo, HoraIngreso, Codigo_Trabajador, PIN_Acceso, ID_Rol
 	)
-	SELECT id_empleado, id_empleado, cargo, '09:00:00',
-		N'TR-' + RIGHT(N'000' + CONVERT(nvarchar(3), id_empleado), 3), N'ACCESO_DESHABILITADO', id_rol
+	SELECT id_trabajador, id_empleado, cargo, '09:00:00', codigo, N'ACCESO_DESHABILITADO', id_rol
 	FROM @personal p
-	WHERE id_rol <> 1
-		AND NOT EXISTS (SELECT 1 FROM dbo.Trabajadores t WHERE t.ID_Trabajador = p.id_empleado);
+	WHERE id_trabajador IS NOT NULL
+		AND NOT EXISTS (SELECT 1 FROM dbo.Trabajadores t WHERE t.ID_Trabajador = p.id_trabajador);
 	SET IDENTITY_INSERT dbo.Trabajadores OFF;
 	SET @tabla_identidad = NULL;
 
-	IF EXISTS (SELECT 1 FROM dbo.Administrador WHERE ID_Administrador = 1 AND (ID_Empleado <> 5 OR ID_Rol <> 1))
+	IF EXISTS (SELECT 1 FROM dbo.Administrador WHERE ID_Administrador = 1 AND (ID_Empleado <> 1 OR ID_Rol <> 2))
 		THROW 50004, N'El administrador 1 ya tiene otra asignación.', 1;
 
 	SET IDENTITY_INSERT dbo.Administrador ON;
 	SET @tabla_identidad = N'Administrador';
 	IF NOT EXISTS (SELECT 1 FROM dbo.Administrador WHERE ID_Administrador = 1)
 		INSERT INTO dbo.Administrador (ID_Administrador, ID_Empleado, Codigo_Administrador, PIN_Acceso, ID_Rol)
-		VALUES (1, 5, N'AD-001', N'ACCESO_DESHABILITADO', 1);
+		VALUES (1, 1, N'AD001', N'ACCESO_DESHABILITADO', 2);
 	SET IDENTITY_INSERT dbo.Administrador OFF;
 	SET @tabla_identidad = NULL;
 
@@ -382,13 +381,13 @@ BEGIN TRY
 		SELECT DATEADD(day, 1, fecha) FROM fechas WHERE fecha < CONVERT(date, '20260930', 112)
 	)
 	INSERT INTO @jornadas (id_trabajador, fecha, numero_jornada, total_jornadas)
-	SELECT p.id_empleado, f.fecha,
-		ROW_NUMBER() OVER (PARTITION BY p.id_empleado ORDER BY f.fecha),
-		COUNT(*) OVER (PARTITION BY p.id_empleado)
+	SELECT p.id_trabajador, f.fecha,
+		ROW_NUMBER() OVER (PARTITION BY p.id_trabajador ORDER BY f.fecha),
+		COUNT(*) OVER (PARTITION BY p.id_trabajador)
 	FROM fechas f CROSS JOIN @personal p
-	WHERE p.id_rol <> 1
-		AND ((p.id_rol = 2 AND DATEDIFF(day, '19000101', f.fecha) % 7 BETWEEN 0 AND 4)
-			OR (p.id_rol = 3 AND DATEDIFF(day, '19000101', f.fecha) % 7 IN (0, 2, 4)))
+	WHERE p.id_trabajador IS NOT NULL
+		AND ((p.id_trabajador NOT IN (2, 9, 11) AND DATEDIFF(day, '19000101', f.fecha) % 7 BETWEEN 0 AND 4)
+			OR (p.id_trabajador IN (2, 9, 11) AND DATEDIFF(day, '19000101', f.fecha) % 7 IN (0, 2, 4)))
 	OPTION (MAXRECURSION 100);
 
 	DECLARE @id_trabajador int = 1, @numero_jornada int, @total_jornadas int;
