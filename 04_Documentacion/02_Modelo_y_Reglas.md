@@ -4,7 +4,24 @@
 
 El origen contiene `Empleados`, `Trabajadores`, `Administrador`, `Roles_Sistema`, `Proyectos`, `Asistencia`, `Tareas`, `Actividades`, `Archivos`, `Comentarios_Tarea` y `Evaluaciones_Rendimiento`. El ETL utiliza las siete primeras para identificar personas, interpretar jornadas y medir asistencia y tareas. Las otras tablas se conservan en el esquema; el generador inicial no les carga movimientos y no se inventan indicadores de ellas.
 
-Los diez trabajadores se identifican por los ID 1, 2, 3, 4, 6, 7, 8, 9, 10 y 11. Benjamin Alfonso, Israel y Matías son practicantes. El personal restante es regular. El ID 5 corresponde al administrador. Carlos Mendoza, ID 10, es un nombre de referencia del conjunto simulado y debe confirmarse si se sustituye por información real.
+El padrón utiliza los identificadores, nombres completos, cargos y códigos del archivo original proporcionado. `ID_Empleado` identifica a la persona y `ID_Trabajador` identifica su registro como trabajador; no son intercambiables.
+
+| ID trabajador | ID empleado | Nombre completo |
+| --- | --- | --- |
+| 1 | 2 | Adonis Vasquez |
+| 2 | 3 | Benjamin Alfonso |
+| 3 | 4 | Celeste Lechuga |
+| 5 | 6 | Marco Coila |
+| 6 | 7 | Kevin Vega |
+| 7 | 8 | Fiorella Alarcon |
+| 8 | 9 | Alejandro Guzman |
+| 9 | 10 | Israel Rodrigo Ochoa Mejia |
+| 10 | 11 | Edu Cruz |
+| 11 | 12 | Matias Sebastian Moreno Rodriguez |
+
+El administrador es `ID_Administrador = 1`, vinculado al empleado 1, y no se cuenta entre los diez trabajadores. Los roles del origen son 1 = Trabajador y 2 = Administrador. El origen no tiene un rol separado de practicante: las jornadas L–M–V de los trabajadores 2, 9 y 11 corresponden a la regla académica indicada para generar el trimestre. El ETL usa esa regla explícita y no la deduce del cargo.
+
+El resumen mensual tiene tres filas por trabajador, una por cada mes. Las treinta filas no son treinta empleados. Para contar personas se consulta `dim_trabajador` o se agrupa por su identificador.
 
 ## Grano y relaciones
 

@@ -1,9 +1,7 @@
 # Evidencias de ejecución
 
-`01_Resultados_SQL_Server.txt` contiene resultados reales obtenidos en una instancia aislada de SQL Server 2022 Developer, con conexión cifrada y validación del certificado mediante una autoridad local. Las verificaciones de calidad modificaron únicamente esa instancia y restauraron sus datos de referencia.
+`03_Resultados_Padron_Origen.txt` contiene la validación vigente del padrón, las cantidades y los indicadores del trimestre en una instancia aislada de SQL Server 2022 Developer. Se verificaron la conservación del histórico, la repetición del ajuste y el generador para instalaciones nuevas.
 
-`02_Resultados_Version_Simplificada.txt` registra la validación de los scripts simplificados, tanto al actualizar una instalación anterior como al crear una base nueva. Los treinta resúmenes mensuales coinciden con la versión anterior.
+Los archivos de resultados anteriores se sustituyeron por esta evidencia después de alinear el padrón. Su historial permanece en Git.
 
-Para consultar las cantidades y los indicadores en otra instancia, ejecutar `../06_Consultas_Evidencia.sql` después del ETL. Para comprobar conciliación e idempotencia, ejecutar `../01_Validacion_ETL.sql`.
-
-Todavía no hay capturas de SSMS ni resultados visuales de Power BI. Seguir los nombres y criterios de `../04_Evidencias_y_Demostracion.md` para añadirlas.
+Las capturas de SSMS y los reportes de Power BI deben obtenerse en las aplicaciones del equipo. Seguir `../09_Guia_Completa.md` y guardar aquí las imágenes reales. Las medidas DAX y el ejemplo monetario todavía deben comprobarse en Power BI Desktop.

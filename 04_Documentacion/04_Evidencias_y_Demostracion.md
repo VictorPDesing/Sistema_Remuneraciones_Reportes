@@ -15,6 +15,7 @@ Las capturas se obtienen al ejecutar el trabajo. No se reemplazan por imágenes 
 | `07_Rendimiento_Personal.png` | KPIs, filtros y matriz de trabajadores. |
 | `08_Asistencia.png` | Puntualidad, tardanzas y jornadas de practicantes. |
 | `09_Tareas_Proyecto.png` | Estados de tareas, observaciones y proyectos. |
+| `10_Bono_Referencial.png` | Comparación de mayor y menor IEP con supuestos monetarios visibles. |
 
 No mostrar contraseñas, PIN, correos personales innecesarios ni otros datos privados. Al adjuntar cada captura, registrar en el pull request la fecha de ejecución, la versión de SQL Server y el archivo utilizado.
 
@@ -52,7 +53,7 @@ GO
 | 5:00–6:00 | Mostrar bitácora, conciliación y repetición sin duplicados. Explicar la transacción y el reemplazo del período. |
 | 6:00–8:30 | Mostrar Power BI: cambiar mes y trabajador, comparar perfiles y revisar tareas por proyecto. Explicar TPA, ICT, TDT e IEP con los valores del informe. |
 | 8:30–9:30 | Mostrar la guía de ejecución, las evidencias y el pull request con los cambios y revisiones reales del equipo. |
-| 9:30–10:00 | Explicar límites: aprobación inferida, sin sueldo ni fórmula de pago y sin calendario de licencias. Indicar los datos necesarios para una siguiente entrega. |
+| 9:30–10:00 | Mostrar el ejemplo de bono por IEP, identificarlo como simulación y explicar los límites: aprobación inferida, sin sueldos reales ni calendario de licencias. |
 
 ## Lista de entrega
 

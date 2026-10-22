@@ -1,0 +1,50 @@
+Padrón de trabajadores y carga ETL
+Fecha: 2026-10-22T00:23:25-05:00 (America/Bogota)
+
+Instancia aislada de SQL Server 2022 Developer.
+Verificado: alineación repetible, sin pérdida de asistencias ni tareas.
+Se compararon identificadores, fechas y estados de todos los movimientos antes y después.
+Generador nuevo: ejecutado dos veces en otra base, con diez trabajadores y 582 movimientos de cada tipo.
+Generador repetido sobre la instalación corregida: no incorporó duplicados.
+El padrón nuevo y el corregido coinciden en IDs, nombres, cargos, códigos y roles.
+
+Changed database context to 'A&SG_OLTP'.
+ID_Trabajador|ID_Empleado|Nombre_Completo|Codigo_Trabajador|Rol_Cargo
+-------------|-----------|---------------|-----------------|---------
+1|2|Adonis Vasquez|EM0038|Arquitecto
+2|3|Benjamin Alfonso|EM0014|Ingeniero de Sistemas
+3|4|Celeste Lechuga|EM0030|Arquitecta
+5|6|Marco Coila|EM0009|Arquitecto
+6|7|Kevin Vega|EM0003|Abogado
+7|8|Fiorella Alarcon|EM0011|Abogada
+8|9|Alejandro Guzman|EM0029|Arquitecto
+9|10|Israel Rodrigo Ochoa Mejia|EM0099|Ingeniero
+10|11|Edu Cruz|EM0005|Ingeniero Clivil
+11|12|Matias Sebastian Moreno Rodriguez|EM0015|Sistemas
+Changed database context to 'A&SG_DataMart'.
+trabajadores
+------------
+10
+resumenes_mensuales
+-------------------
+30
+mes|asistencias|tareas
+---|-----------|------
+7|203|203
+8|186|186
+9|193|193
+id_trabajador_origen|nombre_completo|asistencias|tareas|tpa|ict|tdt|iep
+--------------------|---------------|-----------|------|---|---|---|---
+1|Adonis Vasquez|66|66|100.00|78.79|.00|89.39
+2|Benjamin Alfonso|40|40|95.00|95.00|.00|96.00
+3|Celeste Lechuga|66|66|100.00|69.70|.00|84.85
+5|Marco Coila|66|66|100.00|54.55|.00|77.27
+6|Kevin Vega|66|66|100.00|54.55|.00|77.27
+7|Fiorella Alarcon|66|66|100.00|54.55|.00|77.27
+8|Alejandro Guzman|66|66|100.00|54.55|.00|77.27
+9|Israel Rodrigo Ochoa Mejia|40|40|40.00|.00|50.00|22.00
+10|Edu Cruz|66|66|100.00|54.55|.00|77.27
+11|Matias Sebastian Moreno Rodriguez|40|40|50.00|30.00|.00|50.00
+estado|asistencias_extraidas|tareas_extraidas|registros_rechazados|filas_cargadas
+------|---------------------|----------------|--------------------|--------------
+Completada|582|582|0|1164

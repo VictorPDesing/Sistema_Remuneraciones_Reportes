@@ -30,7 +30,7 @@ BEGIN
 			LTRIM(RTRIM(t.Codigo_Trabajador)) AS codigo_trabajador,
 			LTRIM(RTRIM(e.Nombre_Completo)) AS nombre_completo,
 			LTRIM(RTRIM(t.Rol_Cargo)) AS cargo,
-			CASE WHEN UPPER(LTRIM(RTRIM(r.Nombre_Rol))) = N'PRACTICANTE'
+			CASE WHEN t.ID_Trabajador IN (2, 9, 11)
 				THEN N'Practicante' ELSE N'Regular' END AS tipo_jornada,
 			LTRIM(RTRIM(e.Estado)) AS estado
 		INTO #trabajadores
