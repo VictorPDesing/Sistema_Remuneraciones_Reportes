@@ -2,15 +2,15 @@
 
 ## Evidencias que deben capturarse
 
-Las capturas se obtienen al ejecutar el trabajo. No se reemplazan por imágenes fabricadas ni por resultados esperados escritos en el README. Guardarlas en `04_Documentacion/Evidencias`, con estas referencias:
+Las capturas se obtienen al ejecutar el trabajo. No se reemplazan por imágenes fabricadas ni por resultados esperados escritos en la guía de ejecución. Guardarlas en `04_Documentacion/Evidencias`, con estas referencias:
 
 | Archivo | Contenido verificable |
 | --- | --- |
 | `01_Origen_SQL_Server.png` | Bases creadas y consulta de los diez trabajadores, con rol y jornada. |
 | `02_Registros_Trimestre.png` | Cantidades de asistencias y tareas por mes en el OLTP. |
-| `03_Modelo_Estrella.png` | Cuatro dimensiones, tabla de hechos y sus relaciones. |
+| `03_Modelo_Estrella_SSMS.png` | Diagrama guardado en SSMS con cuatro dimensiones, tabla de hechos y sus relaciones. |
 | `04_Ejecucion_ETL.png` | `EXEC dbo.usp_cargar_rendimiento` y resultado de la bitácora. |
-| `05_Conciliacion_Idempotencia.png` | Diferencias cero y mensaje final del script de validación. |
+| `05_Conciliacion_Idempotencia.png` | Cantidades iguales entre origen y destino, consulta sin duplicados y mensaje final del script de validación. |
 | `06_Modelo_PowerBI.png` | Relaciones uno a varios y dirección única en Power BI. |
 | `07_Rendimiento_Personal.png` | KPIs, filtros y matriz de trabajadores. |
 | `08_Asistencia.png` | Puntualidad, tardanzas y jornadas de practicantes. |
@@ -51,12 +51,12 @@ GO
 | 3:00–5:00 | Abrir el procedimiento y explicar extracción, limpieza de estados, tratamiento de observaciones, rechazos y transformación de medidas. Ejecutar el ETL. |
 | 5:00–6:00 | Mostrar bitácora, conciliación y repetición sin duplicados. Explicar la transacción y el reemplazo del período. |
 | 6:00–8:30 | Mostrar Power BI: cambiar mes y trabajador, comparar perfiles y revisar tareas por proyecto. Explicar TPA, ICT, TDT e IEP con los valores del informe. |
-| 8:30–9:30 | Mostrar el README, las evidencias y el pull request con los cambios y revisiones reales del equipo. |
+| 8:30–9:30 | Mostrar la guía de ejecución, las evidencias y el pull request con los cambios y revisiones reales del equipo. |
 | 9:30–10:00 | Explicar límites: aprobación inferida, sin sueldo ni fórmula de pago y sin calendario de licencias. Indicar los datos necesarios para una siguiente entrega. |
 
 ## Lista de entrega
 
-- Ejecutar los cinco scripts en el orden del README y guardar sus resultados.
+- Ejecutar los scripts que correspondan según `04_Documentacion/00_Orden_Ejecucion.md` y guardar sus resultados.
 - Confirmar diez trabajadores y treinta resúmenes mensuales.
 - Comprobar que todos los rechazos están resueltos o documentados antes de interpretar un reporte como completo.
 - Construir y guardar el `.pbix`; comprobar filtros, totales y formatos.

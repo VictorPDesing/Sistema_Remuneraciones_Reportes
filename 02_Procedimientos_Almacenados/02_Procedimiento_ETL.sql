@@ -1,28 +1,22 @@
 USE [A&SG_DataMart];
 GO
 
-SET ANSI_NULLS ON;
-SET QUOTED_IDENTIFIER ON;
-GO
-
 CREATE OR ALTER PROCEDURE dbo.usp_cargar_rendimiento
 	@fecha_desde date = '20260701',
 	@fecha_hasta date = '20260930'
 AS
 BEGIN
 	SET NOCOUNT ON;
-	SET XACT_ABORT ON;
 
 	IF @fecha_desde IS NULL OR @fecha_hasta IS NULL OR @fecha_desde > @fecha_hasta
 		THROW 50100, N'El intervalo de fechas no es válido.', 1;
 	IF DATEDIFF(day, @fecha_desde, @fecha_hasta) > 3660
 		THROW 50101, N'La carga admite hasta diez años por ejecución.', 1;
-	IF DB_ID(N'A&SG_OLTP') IS NULL
-		THROW 50102, N'No existe la base de datos A&SG_OLTP.', 1;
 	IF @@TRANCOUNT > 0
 		THROW 50103, N'Ejecute el procedimiento sin una transacción externa.', 1;
 
-	DECLARE @id_carga bigint, @resultado_bloqueo int;
+	DECLARE @id_carga bigint;
+	DECLARE @fecha date, @dia_semana int;
 	DECLARE @asistencias_extraidas int, @tareas_extraidas int, @registros_rechazados int, @filas_cargadas int;
 
 	INSERT INTO dbo.bitacora_etl (fecha_desde, fecha_hasta, estado)
@@ -31,10 +25,6 @@ BEGIN
 
 	BEGIN TRY
 		BEGIN TRANSACTION;
-		EXEC @resultado_bloqueo = sys.sp_getapplock
-			@Resource = N'Carga_rendimiento', @LockMode = 'Exclusive', @LockOwner = 'Transaction', @LockTimeout = 0;
-		IF @resultado_bloqueo < 0
-			THROW 50104, N'Ya existe una carga ETL en ejecución.', 1;
 
 		SELECT t.ID_Trabajador AS id_trabajador_origen,
 			LTRIM(RTRIM(t.Codigo_Trabajador)) AS codigo_trabajador,
@@ -76,22 +66,27 @@ BEGIN
 		JOIN [A&SG_OLTP].dbo.Empleados e ON e.ID_Empleado = a.ID_Empleado
 		WHERE NOT EXISTS (SELECT 1 FROM dbo.dim_administrador d WHERE d.id_administrador_origen = a.ID_Administrador);
 
-		;WITH calendario AS (
-			SELECT @fecha_desde AS fecha
-			UNION ALL
-			SELECT DATEADD(day, 1, fecha) FROM calendario WHERE fecha < @fecha_hasta
-		)
-		INSERT INTO dbo.dim_tiempo (id_tiempo, fecha, anio, trimestre, mes, nombre_mes, dia, dia_semana, nombre_dia)
-		SELECT YEAR(c.fecha) * 10000 + MONTH(c.fecha) * 100 + DAY(c.fecha), c.fecha,
-			YEAR(c.fecha), DATEPART(quarter, c.fecha), MONTH(c.fecha),
-			CHOOSE(MONTH(c.fecha), N'Enero', N'Febrero', N'Marzo', N'Abril', N'Mayo', N'Junio',
-				N'Julio', N'Agosto', N'Septiembre', N'Octubre', N'Noviembre', N'Diciembre'),
-			DAY(c.fecha), ((DATEDIFF(day, '19000101', c.fecha) % 7 + 7) % 7) + 1,
-			CHOOSE(((DATEDIFF(day, '19000101', c.fecha) % 7 + 7) % 7) + 1,
-				N'Lunes', N'Martes', N'Miércoles', N'Jueves', N'Viernes', N'Sábado', N'Domingo')
-		FROM calendario c
-		WHERE NOT EXISTS (SELECT 1 FROM dbo.dim_tiempo d WHERE d.fecha = c.fecha)
-		OPTION (MAXRECURSION 0);
+		SET @fecha = @fecha_desde;
+		WHILE @fecha <= @fecha_hasta
+		BEGIN
+			SET @dia_semana = ((DATEDIFF(day, '19000101', @fecha) % 7 + 7) % 7) + 1;
+			IF NOT EXISTS (SELECT 1 FROM dbo.dim_tiempo WHERE fecha = @fecha)
+				INSERT INTO dbo.dim_tiempo (id_tiempo, fecha, anio, trimestre, mes, nombre_mes, dia, dia_semana, nombre_dia)
+				VALUES (
+					YEAR(@fecha) * 10000 + MONTH(@fecha) * 100 + DAY(@fecha), @fecha,
+					YEAR(@fecha), DATEPART(quarter, @fecha), MONTH(@fecha),
+					CASE MONTH(@fecha)
+						WHEN 1 THEN N'Enero' WHEN 2 THEN N'Febrero' WHEN 3 THEN N'Marzo'
+						WHEN 4 THEN N'Abril' WHEN 5 THEN N'Mayo' WHEN 6 THEN N'Junio'
+						WHEN 7 THEN N'Julio' WHEN 8 THEN N'Agosto' WHEN 9 THEN N'Septiembre'
+						WHEN 10 THEN N'Octubre' WHEN 11 THEN N'Noviembre' WHEN 12 THEN N'Diciembre' END,
+					DAY(@fecha), @dia_semana,
+					CASE @dia_semana
+						WHEN 1 THEN N'Lunes' WHEN 2 THEN N'Martes' WHEN 3 THEN N'Miércoles'
+						WHEN 4 THEN N'Jueves' WHEN 5 THEN N'Viernes' WHEN 6 THEN N'Sábado' WHEN 7 THEN N'Domingo' END
+				);
+			SET @fecha = DATEADD(day, 1, @fecha);
+		END;
 
 		SELECT a.ID_Asistencia AS id_asistencia, a.ID_Trabajador AS id_trabajador_origen,
 			a.Fecha_Entrada AS fecha_entrada, a.Fecha_Salida AS fecha_salida,
@@ -159,13 +154,13 @@ BEGIN
 			total_asistencias, asistencias_a_tiempo, tardanzas, minutos_tardanza,
 			horas_permanencia, salidas_pendientes, id_carga
 		)
-		SELECT t.id_trabajador, d.id_tiempo, 0, 0, COALESCE(j.esperada, 0),
+		SELECT t.id_trabajador, d.id_tiempo, 0, 0, ISNULL(j.esperada, 0),
 			CASE WHEN a.id_asistencia IS NULL THEN 0 ELSE 1 END,
 			CASE WHEN CONVERT(time(0), a.fecha_entrada) < '09:41:00' THEN 1 ELSE 0 END,
 			CASE WHEN CONVERT(time(0), a.fecha_entrada) >= '09:41:00' THEN 1 ELSE 0 END,
 			CASE WHEN CONVERT(time(0), a.fecha_entrada) >= '09:41:00'
 				THEN (DATEDIFF(second, DATEADD(minute, 580, CONVERT(datetime2(0), a.fecha)), a.fecha_entrada) + 59) / 60 ELSE 0 END,
-			COALESCE(CONVERT(decimal(10,2), DATEDIFF(second, a.fecha_entrada, a.fecha_salida) / 3600.0), 0),
+			ISNULL(CONVERT(decimal(10,2), DATEDIFF(second, a.fecha_entrada, a.fecha_salida) / 3600.0), 0),
 			CASE WHEN a.id_asistencia IS NOT NULL AND a.fecha_salida IS NULL THEN 1 ELSE 0 END, @id_carga
 		FROM fechas_asistencia fa
 		JOIN dbo.dim_trabajador t ON t.id_trabajador_origen = fa.id_trabajador_origen
@@ -195,7 +190,7 @@ BEGIN
 		GROUP BY t.id_trabajador, d.id_tiempo, p.id_proyecto, a.id_administrador;
 		SET @filas_cargadas += @@ROWCOUNT;
 
-		UPDATE dbo.bitacora_etl SET fin = SYSDATETIME(),
+		UPDATE dbo.bitacora_etl SET fin = GETDATE(),
 			estado = CASE WHEN @registros_rechazados = 0 THEN N'Completada' ELSE N'Con rechazos' END,
 			asistencias_extraidas = @asistencias_extraidas, tareas_extraidas = @tareas_extraidas,
 			registros_rechazados = @registros_rechazados, filas_cargadas = @filas_cargadas
@@ -203,8 +198,8 @@ BEGIN
 		COMMIT TRANSACTION;
 	END TRY
 	BEGIN CATCH
-		IF XACT_STATE() <> 0 ROLLBACK TRANSACTION;
-		UPDATE dbo.bitacora_etl SET fin = SYSDATETIME(), estado = N'Fallida', mensaje = ERROR_MESSAGE()
+		IF @@TRANCOUNT > 0 ROLLBACK TRANSACTION;
+		UPDATE dbo.bitacora_etl SET fin = GETDATE(), estado = N'Fallida', mensaje = ERROR_MESSAGE()
 		WHERE id_carga = @id_carga;
 		THROW;
 	END CATCH;

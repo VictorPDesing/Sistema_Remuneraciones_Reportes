@@ -1,10 +1,6 @@
 USE [A&SG_DataMart];
 GO
 
-SET ANSI_NULLS ON;
-SET QUOTED_IDENTIFIER ON;
-GO
-
 CREATE OR ALTER VIEW dbo.vw_dim_trabajador AS
 SELECT id_trabajador, id_trabajador_origen, codigo_trabajador, nombre_completo, cargo, tipo_jornada, estado
 FROM dbo.dim_trabajador;

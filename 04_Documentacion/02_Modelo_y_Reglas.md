@@ -8,6 +8,8 @@ Los diez trabajadores se identifican por los ID 1, 2, 3, 4, 6, 7, 8, 9, 10 y 11.
 
 ## Grano y relaciones
 
+![Modelo estrella obtenido de SQL Server](Modelo_Estrella.svg)
+
 Una fila de `fac_rendimiento_kpis` representa **trabajador + fecha + proyecto + administrador**. Cada dimensión tiene una clave interna; las dimensiones de personas y proyectos conservan también el identificador del origen. La combinación de las cuatro claves es única.
 
 ```mermaid
@@ -27,9 +29,9 @@ Las dimensiones se actualizan por sustitución de atributos, sin conservar versi
 ## Extracción, limpieza y carga
 
 1. El intervalo se valida y queda registrado en `bitacora_etl`. Se rechazan fechas nulas, invertidas o intervalos superiores a 3.660 días.
-2. Un bloqueo de aplicación evita dos cargas simultáneas. No se permite ejecutar el procedimiento dentro de una transacción externa.
+2. Se ejecuta una carga a la vez desde SSMS. No se permite ejecutar el procedimiento dentro de una transacción externa.
 3. Se leen trabajadores, roles, empleados, proyectos y administradores. Se eliminan espacios al inicio y al final de los textos. Un trabajador sin código o nombre impide la carga.
-4. Se actualizan las dimensiones y se completa el calendario, con nombres de meses y días en español, independientes del idioma de la sesión.
+4. Se actualizan las dimensiones con `UPDATE` e `INSERT` y se completa el calendario con un `WHILE`. Los nombres de meses y días se asignan mediante `CASE` en español.
 5. Se extraen asistencias por fecha de entrada y tareas por fecha de asignación. Los estados se normalizan a mayúsculas para evaluarlos y las observaciones vacías se convierten en `NULL`.
 6. Se registran en `rechazos_etl` las referencias inexistentes, salidas anteriores a la entrada, estados de tarea desconocidos y fechas de inicio o entrega incoherentes. Una tarea completada debe tener fecha de entrega; una pendiente no puede tenerla.
 7. Se recalculan las medidas de los registros aceptados. Los datos rechazados no se corrigen ni se borran del origen.

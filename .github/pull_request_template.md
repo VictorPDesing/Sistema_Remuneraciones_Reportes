@@ -8,7 +8,7 @@ Indicar los comandos o scripts ejecutados y sus resultados. Separar las verifica
 
 ## Documentación
 
-Indicar qué se actualizó en el README y en `04_Documentacion/05_Registro_Cambios.md`.
+Indicar qué se actualizó en la guía de ejecución y en `04_Documentacion/05_Registro_Cambios.md`.
 
 ## Revisión
 

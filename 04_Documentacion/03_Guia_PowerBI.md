@@ -2,7 +2,7 @@
 
 ## Preparar SQL Server
 
-Ejecutar los archivos en el orden del README. Revisar que la última carga esté `Completada`, sin rechazos, y que la conciliación tenga diferencias cero. Si la carga está `Con rechazos`, resolver las incidencias antes de presentar resultados como completos.
+Ejecutar los archivos en el orden de `04_Documentacion/00_Orden_Ejecucion.md`. Revisar que la última carga esté `Completada`, sin rechazos, y que las cantidades del origen y del destino coincidan. Si la carga está `Con rechazos`, resolver las incidencias antes de presentar resultados como completos.
 
 En SSMS, obtener el servidor correcto con:
 
@@ -40,7 +40,7 @@ Configurar `fecha` como fecha y marcar `vw_dim_tiempo` como tabla de fechas. Ord
 
 ## Medidas y formato
 
-Abrir `03_Vistas_PowerBI/04_Medidas_PowerBI.dax`. Crear cada definición por separado con **Modelado → Nueva medida**; el archivo contiene varias medidas y no se pega completo en una sola. Según la configuración regional, puede ser necesario cambiar las comas de argumentos por punto y coma en el editor DAX.
+Abrir `04_Documentacion/Medidas_PowerBI.dax`. Crear cada definición por separado con **Modelado → Nueva medida**; el archivo contiene varias medidas y no se pega completo en una sola. Según la configuración regional, puede ser necesario cambiar las comas de argumentos por punto y coma en el editor DAX.
 
 - Formato **porcentaje, dos decimales**: TPA, ICT, TDT, tasa de finalización, tasa de corrección, tasa de tardanza y cobertura de marcas.
 - Formato **decimal, dos decimales**: IEP, horas de permanencia y minutos por tardanza.
