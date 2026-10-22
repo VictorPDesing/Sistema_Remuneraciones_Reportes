@@ -1,0 +1,54 @@
+Total asistencias = SUM(vw_rendimiento_kpis[total_asistencias])
+
+Llegadas a tiempo = SUM(vw_rendimiento_kpis[asistencias_a_tiempo])
+
+Total tardanzas = SUM(vw_rendimiento_kpis[tardanzas])
+
+Minutos de tardanza = SUM(vw_rendimiento_kpis[minutos_tardanza])
+
+Horas de permanencia = SUM(vw_rendimiento_kpis[horas_permanencia])
+
+Salidas pendientes = SUM(vw_rendimiento_kpis[salidas_pendientes])
+
+Jornadas esperadas = SUM(vw_rendimiento_kpis[jornadas_esperadas])
+
+Jornadas sin marca = SUM(vw_rendimiento_kpis[jornadas_sin_marca])
+
+Total tareas = SUM(vw_rendimiento_kpis[total_tareas])
+
+Tareas completadas = SUM(vw_rendimiento_kpis[tareas_completadas])
+
+Tareas sin observaciones = SUM(vw_rendimiento_kpis[tareas_sin_observaciones])
+
+Tareas fuera de plazo = SUM(vw_rendimiento_kpis[tareas_fuera_plazo])
+
+Tareas con correcciones = SUM(vw_rendimiento_kpis[tareas_con_correcciones])
+
+Tareas en progreso = SUM(vw_rendimiento_kpis[tareas_en_progreso])
+
+Tareas asignadas = SUM(vw_rendimiento_kpis[tareas_asignadas])
+
+Tareas pendientes = [Tareas en progreso] + [Tareas asignadas]
+
+TPA = DIVIDE([Llegadas a tiempo], [Total asistencias])
+
+ICT = DIVIDE([Tareas sin observaciones], [Total tareas])
+
+TDT = DIVIDE([Tareas fuera de plazo], [Total tareas])
+
+IEP =
+IF(
+	ISBLANK([TPA]) || ISBLANK([ICT]) || ISBLANK([TDT]),
+	BLANK(),
+	100 * ([TPA] * 0.30 + [ICT] * 0.50 + (1 - [TDT]) * 0.20)
+)
+
+Tasa de finalizacion = DIVIDE([Tareas completadas], [Total tareas])
+
+Tasa de correccion = DIVIDE([Tareas con correcciones], [Total tareas])
+
+Tasa de tardanza = DIVIDE([Total tardanzas], [Total asistencias])
+
+Cobertura de marcas = DIVIDE([Jornadas esperadas] - [Jornadas sin marca], [Jornadas esperadas])
+
+Minutos por tardanza = DIVIDE([Minutos de tardanza], [Total tardanzas])
