@@ -58,4 +58,6 @@ El modelo estrella se crea físicamente con las cuatro dimensiones y las claves 
 
 Para conectar Power BI, seguir [03_Guia_PowerBI.md](03_Guia_PowerBI.md). Guardar el informe terminado en `03_Vistas_PowerBI/Reporte_Rendimiento_Personal.pbix`. Esa carpeta está reservada para los entregables visuales; los scripts SQL están en `02_Procedimientos_Almacenados`.
 
-Los resultados reales de validación y las capturas se organizan dentro de `04_Documentacion/Evidencias`.
+El informe de entrega ya contiene las páginas **Rendimiento del personal** y **Bono por efectividad**. Para abrirlo en otra computadora, seguir la sección correspondiente de `03_Guia_PowerBI.md`.
+
+Los resultados reales de validación y las capturas se organizan dentro de `04_Documentacion/Evidencias`. El inventario y las capturas que faltan se mantienen en [12_Estado_Entrega.md](12_Estado_Entrega.md).

@@ -20,7 +20,7 @@
 - No se modificó el generador OLTP que el usuario ya ejecutó.
 - Validación: los cinco scripts SQL se ejecutaron correctamente en una instancia aislada de SQL Server 2022 Developer. Se comprobó repetición del origen, reinstalación del Data Mart, conciliación, idempotencia y carga parcial.
 - Se verificaron normalización de textos, rechazo de estados desconocidos y salidas incoherentes, frontera de las 09:41 y tareas de varios proyectos en una misma jornada sin multiplicar asistencias. Después se restauraron los datos iniciales de esa instancia aislada.
-- Se guardaron resultados de ejecución en `Evidencias/01_Resultados_SQL_Server.txt`. La construcción del `.pbix` y las capturas de SSMS y Power BI siguen pendientes; no se presentan como verificadas.
+- En esta etapa se guardaron resultados de ejecución y quedó pendiente construir el `.pbix`. Las evidencias antiguas fueron sustituidas por `Evidencias/03_Resultados_Padron_Origen.txt`; el estado actual del informe se registra en la etapa 6.
 
 ## Etapa 3 — Scripts y organización de entregables
 
@@ -33,7 +33,7 @@
 - Se simplificaron las consultas de validación y evidencia, y se añadió una guía de ejecución sin recrear el README principal.
 - Se generó `Modelo_Estrella.svg` a partir de las tablas y relaciones de SQL Server. Se añadió una guía para guardar el diagrama en SSMS y subir una captura real.
 - Validación: actualización del procedimiento y las vistas sobre una instalación anterior, creación del Data Mart nuevo, cargas repetidas y comparación de los treinta resúmenes mensuales. Las cantidades e indicadores coinciden con la versión anterior. Se verificaron de nuevo los controles de calidad y la carga parcial.
-- Resultados: `Evidencias/02_Resultados_Version_Simplificada.txt`. Siguen pendientes el `.pbix` y la captura del diagrama en la instancia local de SSMS.
+- Los resultados de esta etapa fueron sustituidos por la evidencia vigente del padrón. La entrega del `.pbix` y la captura de SSMS se registran en la etapa 6.
 
 ## Etapa 4 — Padrón de trabajadores
 
@@ -52,6 +52,15 @@
 - Se documentó la lectura de los filtros y el ejemplo de Edu Cruz en septiembre: 22 asistencias, 22 tareas, ICT 59,09% e IEP 79,55.
 - Se incluyeron frases de apoyo para la demostración y la distinción entre cumplimiento sin observaciones, finalización y entrega fuera de plazo.
 - No se modificaron los scripts SQL ni las medidas DAX.
+
+## Etapa 6 — Informe y evidencias de entrega
+
+- Se incorporó el informe construido por el equipo con las páginas **Rendimiento del personal** y **Bono por efectividad**.
+- Se dejó una única versión de entrega, `03_Vistas_PowerBI/Reporte_Rendimiento_Personal.pbix`, conservando sin cambios el contenido del archivo completo. La copia anterior del mismo nombre tenía una sola página sin visuales.
+- Se reunieron las capturas existentes en `Evidencias`, se normalizó el nombre de la captura de rendimiento y se retiró una copia idéntica de la validación que estaba fuera de esa carpeta.
+- Se resumieron las guías con pasos directos y sin emojis. Se actualizaron al alcance de dos páginas y al tiempo de cinco minutos de PPT y diez de demostración. Las ampliaciones de asistencia y proyectos son opcionales.
+- Se inspeccionó la estructura guardada del `.pbix`: dos páginas, seis tarjetas y un gráfico de barras en rendimiento, y dos tablas con filtros superior/inferior por IEP en bono. No se ejecutó Power BI Desktop ni se validó una conexión en vivo durante esta revisión.
+- Faltan las capturas `06_Modelo_PowerBI.png` y `10_Bono_Referencial.png`. El guion detallado queda para el viernes.
 
 ## Registro de aportes y evidencias
 

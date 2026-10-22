@@ -23,7 +23,7 @@ El administrador es `ID_Administrador = 1`, vinculado al empleado 1, y no se cue
 
 El resumen mensual tiene tres filas por trabajador, una por cada mes. Las treinta filas no son treinta empleados. Para contar personas se consulta `dim_trabajador` o se agrupa por su identificador.
 
-## Grano y relaciones
+## Qué representa cada fila y cómo se relacionan las tablas
 
 ![Modelo estrella obtenido de SQL Server](Modelo_Estrella.svg)
 
@@ -41,7 +41,7 @@ La asistencia no tiene proyecto ni administrador en el origen. Se carga una sola
 
 Las filas de calendario sin marca de entrada también usan proyecto y administrador cero. Al filtrar un proyecto real se pueden analizar tareas, pero no atribuirle puntualidad ni IEP: el origen no ofrece esa relación. El reporte de rendimiento general utiliza trabajador y tiempo; el reporte de proyectos utiliza métricas de tareas.
 
-Las dimensiones se actualizan por sustitución de atributos, sin conservar versiones históricas. Si cambia un cargo o una jornada, este modelo no reconstruye su historia anterior. Es una limitación del alcance T2.
+Los datos de las dimensiones se actualizan sin guardar versiones anteriores. Si cambia un cargo o una jornada, este modelo no reconstruye su historia anterior. Es una limitación del alcance T2.
 
 ## Extracción, limpieza y carga
 

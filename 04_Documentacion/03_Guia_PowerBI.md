@@ -1,103 +1,63 @@
-# Conexión y reportes en Power BI
+# Informe de Power BI
 
-## Preparar SQL Server
+La entrega usa [Reporte_Rendimiento_Personal.pbix](../03_Vistas_PowerBI/Reporte_Rendimiento_Personal.pbix), con dos páginas: rendimiento y bono. Para abrir ese archivo no es necesario crear otra vez sus medidas.
 
-Ejecutar los archivos en el orden de `04_Documentacion/00_Orden_Ejecucion.md`. Revisar que la última carga esté `Completada`, sin rechazos, y que las cantidades del origen y del destino coincidan. Si la carga está `Con rechazos`, resolver las incidencias antes de presentar resultados como completos.
+## Abrir en otra computadora
 
-En SSMS, obtener el servidor correcto con:
+1. Crear las bases y ejecutar el ETL según [00_Orden_Ejecucion.md](00_Orden_Ejecucion.md).
+2. Abrir el `.pbix` en Power BI Desktop.
+3. En **Archivo → Opciones y configuración → Configuración de origen de datos**, cambiar el servidor si es diferente. La base es `A&SG_DataMart`.
+4. Configurar las credenciales de esa instancia y actualizar los visuales. SQL Server debe estar disponible.
+
+El nombre del servidor puede consultarse en SSMS:
 
 ```sql
-SELECT CONVERT(nvarchar(128), SERVERPROPERTY('ServerName')) AS servidor;
+SELECT SERVERPROPERTY('ServerName') AS servidor;
 ```
 
-Power BI debe poder conectarse a esa misma instancia. El servicio SQL Server debe estar iniciado. Si se usa otra computadora, habilitar TCP/IP, configurar el puerto y permitir únicamente el acceso necesario en el firewall. No publicar SQL Server directamente en Internet. Mantener el cifrado y utilizar un certificado confiable si la conexión lo requiere.
+## Construir un informe nuevo
 
-## Conectar las vistas
+1. **Obtener datos → SQL Server**. Escribir servidor y base `A&SG_DataMart`.
+2. Elegir **DirectQuery**, conectarse y cargar las cinco vistas de la tabla siguiente.
+3. Crear cuatro relaciones activas, de uno a varios, con filtro único desde cada dimensión hacia los hechos.
 
-1. Abrir Power BI Desktop y seleccionar **Obtener datos → SQL Server**.
-2. Pegar el nombre del servidor obtenido en SSMS. Escribir `A&SG_DataMart` en **Base de datos**.
-3. Seleccionar **DirectQuery** para la demostración con consultas al servidor. También se puede usar **Importar** si se desea un modelo con actualización manual; registrar el modo elegido en la evidencia.
-4. Elegir la autenticación que ya funciona con la instancia; para una instalación local normalmente se utiliza Windows.
-5. Seleccionar únicamente estas cinco vistas: `vw_dim_trabajador`, `vw_dim_tiempo`, `vw_dim_proyecto`, `vw_dim_administrador` y `vw_rendimiento_kpis`.
-6. Cargar y abrir la vista de modelo. No cargar las tablas OLTP ni crear relaciones adicionales entre las dimensiones.
+| Dimensión | Columna en ambos lados | Tabla de hechos |
+| --- | --- | --- |
+| `vw_dim_trabajador` | `id_trabajador` | `vw_rendimiento_kpis` |
+| `vw_dim_tiempo` | `id_tiempo` | `vw_rendimiento_kpis` |
+| `vw_dim_proyecto` | `id_proyecto` | `vw_rendimiento_kpis` |
+| `vw_dim_administrador` | `id_administrador` | `vw_rendimiento_kpis` |
 
-`vw_indicadores_mensuales` se consulta en SSMS para contrastar los resultados. No añadirla como una segunda tabla de hechos al modelo inicial, porque ya resume las mismas medidas. `vw_calidad_cargas` puede importarse como una tabla independiente para una página de calidad, sin relaciones con los hechos.
+No unir por nombres ni por columnas terminadas en `_origen`. No cargar también las tablas OLTP o la vista mensual como otra tabla de hechos.
 
-## Relaciones
+## Medidas
 
-Crear estas cuatro relaciones activas, con cardinalidad **uno a varios** y dirección de filtro **única**, desde dimensión hacia hechos:
+Crear cada definición de [Medidas_PowerBI.dax](Medidas_PowerBI.dax) por separado con **Nueva medida**. Reemplazar todo el contenido inicial de la barra, incluido `Medida =`.
 
-| Lado uno | Columna | Lado varios | Columna |
-| --- | --- | --- | --- |
-| `vw_dim_trabajador` | `id_trabajador` | `vw_rendimiento_kpis` | `id_trabajador` |
-| `vw_dim_tiempo` | `id_tiempo` | `vw_rendimiento_kpis` | `id_tiempo` |
-| `vw_dim_proyecto` | `id_proyecto` | `vw_rendimiento_kpis` | `id_proyecto` |
-| `vw_dim_administrador` | `id_administrador` | `vw_rendimiento_kpis` | `id_administrador` |
+- TPA, ICT, TDT y tasas: porcentaje, dos decimales.
+- IEP: decimal de 0 a 100; no formato de porcentaje.
+- Cantidades: enteros.
+- Sueldos y bonos referenciales: moneda en soles, dos decimales.
 
-No relacionar por nombre de persona o proyecto. `id_trabajador_origen` sirve para conciliar con el OLTP, no para sustituir la clave interna de la relación.
+Las medidas del bono están en [Remuneracion_Referencial.dax](Remuneracion_Referencial.dax). Usar las medidas para calcular los totales; no promediar los porcentajes de varios meses.
 
-Configurar `fecha` como fecha y marcar `vw_dim_tiempo` como tabla de fechas. Ordenar `nombre_mes` por `mes` y `nombre_dia` por `dia_semana`. Para períodos que incluyan varios años, usar año y mes juntos. Ocultar las claves internas a los usuarios del informe.
+## Página 1: Rendimiento del personal
 
-## Medidas y formato
+- Tarjetas: Total asistencias, Total tareas, TPA, ICT, TDT e IEP.
+- Segmentadores: `nombre_mes` y `nombre_completo`, de sus dimensiones.
+- Barras horizontales: nombre del trabajador en el eje Y e IEP en el eje X. Ordenar por IEP descendente.
+- Ordenar la columna `nombre_mes` por `mes` para mostrar julio, agosto y septiembre en secuencia.
 
-Abrir `04_Documentacion/Medidas_PowerBI.dax`. Crear cada definición por separado con **Modelado → Nueva medida**; el archivo contiene varias medidas y no se pega completo en una sola. Según la configuración regional, puede ser necesario cambiar las comas de argumentos por punto y coma en el editor DAX.
+No filtrar esta página por proyecto o administrador, porque el origen no asigna las asistencias a ellos. Si aparece `(En blanco)`, revisar la relación y los datos según [11_Indicadores_Dashboard.md](11_Indicadores_Dashboard.md).
 
-- Formato **porcentaje, dos decimales**: TPA, ICT, TDT, tasa de finalización, tasa de corrección, tasa de tardanza y cobertura de marcas.
-- Formato **decimal, dos decimales**: IEP, horas de permanencia y minutos por tardanza.
-- Formato **entero**: cantidades de tareas, asistencias, jornadas y minutos totales.
+## Página 2: Bono por efectividad
 
-Las tasas DAX usan valores de 0 a 1; las vistas SQL las muestran de 0 a 100. Un TPA `0,95` en DAX debe verse como `95,00%`, que corresponde a `95,00` en la vista SQL. El IEP se muestra directamente en escala 0 a 100, sin formato de porcentaje.
+Agregar el aviso de simulación y dos tablas con trabajador, IEP, base, bono y total referencial. En la primera, usar el filtro visual **Top N superior 1 por IEP**; en la segunda, **inferior 1 por IEP**. No elegir los nombres manualmente.
 
-Usar las medidas explícitas; no crear un promedio de porcentajes. El total de un trimestre debe recalcularse con todas las tareas y asistencias seleccionadas.
+La base de S/ 1.500 y el máximo de 20% son supuestos académicos. Los pasos y resultados están en [10_Ejemplo_Remuneracion.md](10_Ejemplo_Remuneracion.md).
 
-## Páginas del informe
+## Comprobar y guardar
 
-### 1. Rendimiento del personal
+Sin filtros, deben verse 582 asistencias y 582 tareas. Para el trimestre, Benjamin tiene IEP 96 e Israel 22. Comparar los resultados por mes con `dbo.vw_indicadores_mensuales` en SSMS; esa vista usa tasas de 0 a 100 y DAX usa valores de 0 a 1 con formato porcentual.
 
-Segmentadores: año, mes y trabajador. No colocar segmentadores de proyecto ni administrador en esta página.
-
-- Tarjetas: TPA, ICT, TDT, IEP, total de asistencias y total de tareas.
-- Barras por trabajador: IEP y tareas sin observaciones.
-- Gráfico de líneas por mes: TPA, ICT y TDT.
-- Matriz: trabajador, mes, asistencias, tardanzas, tareas completadas, tareas sin observaciones e IEP.
-
-Ordenar las barras por IEP descendente. No fijar manualmente quién ocupa el primer lugar: el gráfico debe reflejar los datos calculados. Los regulares tienen TPA de 100% por las franjas del generador; Benjamin se distingue por el cumplimiento de tareas y el IEP, no por ser el único puntual.
-
-### 2. Asistencia
-
-Segmentadores: año, mes, tipo de jornada y trabajador.
-
-- Tarjetas: total de asistencias, tardanzas, minutos de tardanza y salidas pendientes.
-- Columnas apiladas: llegadas a tiempo y tardanzas por trabajador.
-- Tabla: trabajador, jornadas esperadas, jornadas sin marca, cobertura de marcas y horas de permanencia.
-
-No denominar las jornadas sin marca como faltas injustificadas. El conjunto inicial tiene todas las jornadas registradas; mostrar cero en ese indicador es un resultado válido. No sincronizar filtros de proyecto de otras páginas hacia esta página.
-
-### 3. Tareas por proyecto
-
-Segmentadores: año, mes, trabajador, proyecto y administrador.
-
-- Tarjetas: total de tareas, tareas pendientes, ICT y TDT.
-- Columnas apiladas: completadas, en progreso y asignadas por proyecto.
-- Matriz: proyecto, administrador, trabajador, tareas con correcciones y tareas fuera de plazo.
-
-En esta página filtrar `id_proyecto > 0` para ocultar el miembro técnico de asistencia. No mostrar TPA, horas de permanencia ni IEP por proyecto: no existe una atribución de asistencia a proyectos en el origen. El IEP queda vacío al no haber asistencias en un filtro de proyecto real.
-
-### 4. Simulación de bono por efectividad
-
-Construir la comparación entre mayor y menor IEP con [10_Ejemplo_Remuneracion.md](10_Ejemplo_Remuneracion.md). La base y el bono son valores referenciales declarados; no sueldos reales. Las medidas están en `04_Documentacion/Remuneracion_Referencial.dax`.
-
-### 5. Calidad de carga
-
-Opcionalmente cargar `vw_calidad_cargas` y mostrar el identificador, inicio, fin, estado, cantidades extraídas, rechazadas y cargadas. Mostrar la última ejecución y conservar las anteriores como evidencia de repetición. Esta tabla no participa en los cálculos de rendimiento.
-
-## Contraste y actualización
-
-1. Filtrar julio de 2026 sin proyecto ni trabajador: 203 asistencias y 203 tareas.
-2. Filtrar agosto: 186 de cada una. Filtrar septiembre: 193 de cada una.
-3. Seleccionar el trimestre: 582 de cada una.
-4. Contrastar cada trabajador y mes con `dbo.vw_indicadores_mensuales` en SSMS, considerando la escala de porcentajes.
-5. Ejecutar nuevamente el ETL en SSMS. En DirectQuery, actualizar los visuales; en Importar, actualizar los datos del modelo. Si persiste información anterior, comprobar el modo de conexión y la caché del informe.
-6. Guardar el informe como `Reporte_Rendimiento_Personal.pbix` y subirlo a `03_Vistas_PowerBI` una vez construido. El repositorio todavía no contiene un `.pbix` generado ni capturas de resultados.
-
-Power BI Desktop puede trabajar localmente sin publicar el informe. Publicar en Power BI Service es opcional y requiere permisos/licencia y, si SQL Server está en una computadora local, una puerta de enlace configurada. No afirmar que DirectQuery elimina toda latencia: el rendimiento depende del servidor, las consultas y la red.
+Guardar en `03_Vistas_PowerBI/Reporte_Rendimiento_Personal.pbix`. Al modificarlo, subir la versión actualizada con el mismo nombre. Exportar un PDF es opcional; no hace falta publicar en Power BI Service para demostrarlo desde Desktop.
