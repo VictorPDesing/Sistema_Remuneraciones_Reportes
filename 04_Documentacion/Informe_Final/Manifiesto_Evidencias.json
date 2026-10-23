@@ -1,0 +1,103 @@
+{
+  "version_codigo": "9726a5470b3ab6cd333edc21e1015d04da9598b3",
+  "evidencias": {
+    "E-01": {
+      "descripcion": "Padrón y procedencia",
+      "ruta": "04_Documentacion/08_Padron_Trabajadores.md",
+      "url": "https://github.com/b-alfonso/Sistema_Remuneraciones_Reportes/blob/9726a5470b3ab6cd333edc21e1015d04da9598b3/04_Documentacion/08_Padron_Trabajadores.md",
+      "nota": "Padrón del origen; no publicación del volcado completo."
+    },
+    "E-02": {
+      "descripcion": "Resultados SQL y perfil del conjunto",
+      "ruta": "04_Documentacion/Evidencias/03_Resultados_Padron_Origen.txt",
+      "url": "https://github.com/b-alfonso/Sistema_Remuneraciones_Reportes/blob/9726a5470b3ab6cd333edc21e1015d04da9598b3/04_Documentacion/Evidencias/03_Resultados_Padron_Origen.txt",
+      "nota": "Diez trabajadores, 582/582 y 1.164 filas."
+    },
+    "E-03": {
+      "descripcion": "Generación de movimientos simulados",
+      "ruta": "01_Base_Datos/01_Estructura_y_Datos.sql",
+      "url": "https://github.com/b-alfonso/Sistema_Remuneraciones_Reportes/blob/9726a5470b3ab6cd333edc21e1015d04da9598b3/01_Base_Datos/01_Estructura_y_Datos.sql",
+      "nota": "Método T-SQL y calendario del trimestre."
+    },
+    "E-04": {
+      "descripcion": "Orden y procedimiento de reproducción",
+      "ruta": "04_Documentacion/00_Orden_Ejecucion.md",
+      "url": "https://github.com/b-alfonso/Sistema_Remuneraciones_Reportes/blob/9726a5470b3ab6cd333edc21e1015d04da9598b3/04_Documentacion/00_Orden_Ejecucion.md",
+      "nota": "Instalación, parámetros y comprobaciones."
+    },
+    "E-05": {
+      "descripcion": "Modelo físico y reglas",
+      "ruta": "04_Documentacion/Evidencias/03_Modelo_Estrella_SSMS.png",
+      "url": "https://github.com/b-alfonso/Sistema_Remuneraciones_Reportes/blob/9726a5470b3ab6cd333edc21e1015d04da9598b3/04_Documentacion/Evidencias/03_Modelo_Estrella_SSMS.png",
+      "nota": "Complemento: relaciones de Power BI en 03_Vistas_PowerBI/06_Modelo_PowerBI.png."
+    },
+    "E-06": {
+      "descripcion": "Código de transformación y consulta",
+      "ruta": "02_Procedimientos_Almacenados/02_Procedimiento_ETL.sql",
+      "url": "https://github.com/b-alfonso/Sistema_Remuneraciones_Reportes/blob/9726a5470b3ab6cd333edc21e1015d04da9598b3/02_Procedimientos_Almacenados/02_Procedimiento_ETL.sql",
+      "nota": "DDL, vistas y DAX enlazados en 5.2 y anexo D."
+    },
+    "E-07": {
+      "descripcion": "Dashboard de rendimiento",
+      "ruta": "04_Documentacion/Evidencias/07_Rendimiento_Personal.png",
+      "url": "https://github.com/b-alfonso/Sistema_Remuneraciones_Reportes/blob/9726a5470b3ab6cd333edc21e1015d04da9598b3/04_Documentacion/Evidencias/07_Rendimiento_Personal.png",
+      "nota": "Captura del conjunto julio–septiembre."
+    },
+    "E-08": {
+      "descripcion": "Solución Big Data",
+      "ruta": null,
+      "url": null,
+      "nota": "Reservada; no desarrollada en T2."
+    },
+    "E-09": {
+      "descripcion": "Prueba de repetición",
+      "ruta": "04_Documentacion/01_Validacion_ETL.sql",
+      "url": "https://github.com/b-alfonso/Sistema_Remuneraciones_Reportes/blob/9726a5470b3ab6cd333edc21e1015d04da9598b3/04_Documentacion/01_Validacion_ETL.sql",
+      "nota": "Comparación en ambos sentidos mediante EXCEPT."
+    },
+    "E-10": {
+      "descripcion": "Bitácora y conciliación",
+      "ruta": "04_Documentacion/Evidencias/05_Conciliacion_Idempotencia.png",
+      "url": "https://github.com/b-alfonso/Sistema_Remuneraciones_Reportes/blob/9726a5470b3ab6cd333edc21e1015d04da9598b3/04_Documentacion/Evidencias/05_Conciliacion_Idempotencia.png",
+      "nota": "Ejecuciones 4 y 5; cero rechazos y sin diferencias."
+    },
+    "E-11": {
+      "descripcion": "Conclusiones y recomendaciones",
+      "ruta": null,
+      "url": null,
+      "nota": "Apartados 7.1, 7.2 y 7.3 de este informe.",
+      "referencia_interna": "Capítulo VII, apartados 7.1 a 7.3"
+    },
+    "E-12": {
+      "descripcion": "Registro de cambios",
+      "ruta": "04_Documentacion/05_Registro_Cambios.md",
+      "url": "https://github.com/b-alfonso/Sistema_Remuneraciones_Reportes/blob/9726a5470b3ab6cd333edc21e1015d04da9598b3/04_Documentacion/05_Registro_Cambios.md",
+      "nota": "Mejoras e historial de implementación."
+    },
+    "E-13": {
+      "descripcion": "Reporte funcional de Power BI",
+      "ruta": "03_Vistas_PowerBI/Reporte_Rendimiento_Personal.pbix",
+      "url": "https://github.com/b-alfonso/Sistema_Remuneraciones_Reportes/blob/9726a5470b3ab6cd333edc21e1015d04da9598b3/03_Vistas_PowerBI/Reporte_Rendimiento_Personal.pbix",
+      "nota": "Dos páginas; requiere SQL Server para actualizar."
+    },
+    "E-14": {
+      "descripcion": "Demostración Big Data",
+      "ruta": null,
+      "url": null,
+      "nota": "Reservada; no desarrollada en T2."
+    },
+    "E-15": {
+      "descripcion": "Historial y aportes",
+      "ruta": null,
+      "url": "https://github.com/b-alfonso/Sistema_Remuneraciones_Reportes/commits/9726a5470b3ab6cd333edc21e1015d04da9598b3",
+      "nota": "Historial de commits enlazado en 5.6 y anexo H; no prueba de autoría para todo el equipo."
+    },
+    "E-16": {
+      "descripcion": "Uso responsable de IA",
+      "ruta": null,
+      "url": null,
+      "nota": "Apartado 5.7 y anexo I de este informe.",
+      "referencia_interna": "Apartado 5.7 y anexo I"
+    }
+  }
+}

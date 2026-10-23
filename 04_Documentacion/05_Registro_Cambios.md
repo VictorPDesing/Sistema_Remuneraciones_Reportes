@@ -5,7 +5,7 @@
 - Rama: `feature/estructura-datos`.
 - Commit: `16b8f18`.
 - Se crearon las cuatro carpetas del proyecto y el script de estructura y datos.
-- Se incluyeron doce tablas, claves foráneas y generación repetible del trimestre julio–septiembre de 2026.
+- Se incluyeron las tablas del esquema, claves foráneas y generación repetible del trimestre julio–septiembre de 2026.
 - Se publicó el mismo estado inicial en `main` y en la rama de trabajo.
 - Validación en el entorno de desarrollo: análisis sintáctico T-SQL y cálculo independiente del calendario. El usuario confirmó la creación de la base en su instancia de SSMS; no se adjuntaron todavía evidencias de sus cantidades ni resultados.
 
@@ -65,3 +65,14 @@
 ## Registro de aportes y evidencias
 
 Después de cada aporte real, agregar una entrada con integrante, archivos, cambio, validación y referencia al commit o pull request. Las revisiones se registran desde la cuenta de quien las realiza.
+
+## Etapa 7 — Informe BI y correspondencia de evidencias
+
+- Se tomó como referencia la solución publicada en `9726a54`: julio–septiembre de 2026, diez trabajadores y 582 movimientos de asistencia y tareas.
+- Se preparó el informe de T2 con arquitectura, modelo, ETL, indicadores, validaciones, resultados y conclusiones respaldados por el repositorio.
+- Se sustituyeron las imágenes del otro modelo por las capturas existentes de SSMS y Power BI. El diagrama de arquitectura se elaboró a partir de los scripts actuales.
+- Se añadieron el manifiesto de evidencias y enlaces permanentes a código, resultados, reportes e historial. Los apartados de Big Data quedan reservados, salvo el objetivo futuro de 1.3.
+- Se corrigieron las guías que aún indicaban que faltaba la captura de relaciones; ya está en `03_Vistas_PowerBI/06_Modelo_PowerBI.png`.
+- Se documentó que las dos copias PBIX publicadas tienen el mismo contenido. Se conservan ambas y se identifica `Reporte_Rendimiento_Personal.pbix` como archivo principal.
+- No se modificaron los scripts SQL, las medidas DAX, los PBIX ni las imágenes existentes. No se realizó una nueva ejecución de SQL Server o Power BI durante la revisión documental.
+- La captura complementaria del bono todavía no está publicada. El informe usa su tabla de resultados y el archivo PBIX, sin presentar una captura inexistente.
