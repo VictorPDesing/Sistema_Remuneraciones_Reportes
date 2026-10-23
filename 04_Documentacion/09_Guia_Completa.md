@@ -76,9 +76,9 @@ Guardar las versiones actualizadas con el mismo nombre `Reporte_Rendimiento_Pers
 
 - `03_Modelo_Estrella_SSMS.png`: modelo de SQL Server.
 - `05_Conciliacion_Idempotencia.png`: ejecución del ETL y comprobación de las cargas.
-- `06_Modelo_PowerBI.png`: relaciones en Power BI.
+- `03_Vistas_PowerBI/06_Modelo_PowerBI.png`: relaciones en Power BI; ya está incluida y se conserva esa ubicación.
 - `07_Rendimiento_Personal.png`: primera página.
-- `10_Bono_Referencial.png`: segunda página.
+- `10_Bono_Referencial.png`: captura complementaria de la segunda página, aún no subida.
 
 Subir los archivos con **Add file → Upload files** y registrar el cambio en `05_Registro_Cambios.md`. Consultar [12_Estado_Entrega.md](12_Estado_Entrega.md) para ver qué está incluido y qué falta.
 
