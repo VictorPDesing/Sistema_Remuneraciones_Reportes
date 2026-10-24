@@ -137,7 +137,6 @@ BEGIN
 		JOIN dbo.dim_tiempo d ON d.id_tiempo = f.id_tiempo
 		WHERE d.fecha BETWEEN @fecha_desde AND @fecha_hasta;
 
-		-- La asistencia no tiene proyecto ni administrador en el origen.
 		;WITH jornadas AS (
 			SELECT t.id_trabajador_origen, d.fecha, 1 AS esperada
 			FROM #trabajadores t CROSS JOIN dbo.dim_tiempo d
