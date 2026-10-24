@@ -40,7 +40,7 @@ Para otro archivo: abrirlo en GitHub, pulsar **Y**, copiar el enlace permanente 
 
 ## Capturas y comprobaciones
 
-Ya existen las capturas del modelo SSMS, relaciones de Power BI, conciliación y rendimiento. La captura complementaria del bono aún no está publicada; el informe incluye sus cálculos y enlaza el PBIX de dos páginas.
+Ya existen las capturas del modelo SSMS, relaciones de Power BI, conciliación y rendimiento. La captura del bono ya está en `03_Vistas_PowerBI/Bono por efectividad.png`, junto con `Reporte por rendimiento.png`. El informe archivado conserva las referencias del momento en que se preparó; estas guías reflejan las incorporaciones posteriores.
 
 Antes de exponer, abrir el reporte en el equipo de clase y comprobar la conexión y los filtros. La captura existente muestra `(En blanco)` en el selector de meses: revisar la correspondencia de claves y la relación antes de excluir esa opción. No se afirma una nueva ejecución en vivo durante la revisión del documento.
 

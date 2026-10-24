@@ -76,3 +76,14 @@ Después de cada aporte real, agregar una entrada con integrante, archivos, camb
 - Se documentó que las dos copias PBIX publicadas tienen el mismo contenido. Se conservan ambas y se identifica `Reporte_Rendimiento_Personal.pbix` como archivo principal.
 - No se modificaron los scripts SQL, las medidas DAX, los PBIX ni las imágenes existentes. No se realizó una nueva ejecución de SQL Server o Power BI durante la revisión documental.
 - La captura complementaria del bono todavía no está publicada. El informe usa su tabla de resultados y el archivo PBIX, sin presentar una captura inexistente.
+
+## Etapa 8 — Carga de la simulación en otra computadora
+
+- Se añadieron `01_Base_Datos/04_Cargar_Simulacion.sql` para ejecutar el ETL y `05_Comprobar_Simulacion.sql` para consultar servidor, cantidades, cargas, indicadores y duplicados.
+- El cargador avisa cuando falta el procedimiento o no existen movimientos del trimestre. No inserta hechos manualmente ni elimina bases.
+- Se aclaró que crear el OLTP y el Data Mart deja los hechos vacíos hasta ejecutar el procedimiento. Se actualizaron el orden de ejecución y la guía general, y se añadió una guía para otra computadora.
+- Se comprobó la instalación desde cero en SQL Server 2022 Developer aislado: tabla vacía tras el DDL, carga de 1.164 filas, 582 asistencias, 582 tareas, diez trabajadores y treinta resúmenes mensuales.
+- Se verificó que el generador y el ETL pueden repetirse sin acumular medidas. Una carga con origen vacío se detuvo y conservó los hechos anteriores. Los resultados están en `Evidencias/Resultados_Carga_Simulacion.txt`.
+- Se corrigió el enlace del modelo estrella para usar la captura existente, porque el SVG enlazado ya no estaba en la versión actual.
+- Se reconocieron las capturas de rendimiento y bono ya publicadas en `03_Vistas_PowerBI`. No se modificaron sus imágenes ni los archivos PBIX.
+- Esta revisión ejecutó SQL Server y revisó la estructura de los PBIX; no abrió Power BI Desktop ni probó su conexión en vivo.

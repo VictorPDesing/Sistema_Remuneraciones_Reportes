@@ -8,6 +8,8 @@
 | `07_Rendimiento_Personal.png` | Tarjetas, filtros y barras del informe. |
 | `../../03_Vistas_PowerBI/06_Modelo_PowerBI.png` | Cuatro relaciones activas, de uno a varios, en Power BI. Se conserva su ubicación original. |
 
-La captura complementaria `10_Bono_Referencial.png` todavía no está subida. La página de bono existe en el PBIX y el informe escrito contiene su fórmula y tabla referencial. No incluir contraseñas ni datos de contacto innecesarios al tomar nuevas capturas.
+Las capturas adicionales ya están en `03_Vistas_PowerBI/Reporte por rendimiento.png` y `03_Vistas_PowerBI/Bono por efectividad.png`. Se conservan esas ubicaciones. No incluir contraseñas ni datos de contacto innecesarios al tomar nuevas capturas.
 
 La lista de revisión está en [12_Estado_Entrega.md](../12_Estado_Entrega.md). Las evidencias anteriores del padrón permanecen en el historial de Git.
+
+[Resultados_Carga_Simulacion.txt](Resultados_Carga_Simulacion.txt) registra la instalación, la reproducción de la tabla vacía antes del ETL, la carga del trimestre y los controles de repetición en una instancia aislada de SQL Server.
