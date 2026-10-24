@@ -55,7 +55,6 @@ BEGIN TRY
 		FROM dbo.Trabajadores t JOIN dbo.Empleados e ON e.ID_Empleado = t.ID_Empleado;
 		SELECT Correo, Telefono, Estado INTO #contacto_administrador FROM dbo.Empleados WHERE ID_Empleado = 5;
 
-		-- Se reasignan empleados sin desactivar las claves foráneas.
 		SET IDENTITY_INSERT dbo.Empleados ON;
 		SET @tabla_identidad = N'Empleados';
 		INSERT INTO dbo.Empleados (ID_Empleado, Nombre_Completo, Estado)
