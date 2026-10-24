@@ -10,13 +10,15 @@
 - Captura de las cuatro relaciones activas de Power BI en `03_Vistas_PowerBI/06_Modelo_PowerBI.png`.
 - Informe BI y manifiesto de evidencias en `Informe_Final`, con los enlaces de código fijados a la versión `9726a54`.
 
-## Captura complementaria
+## Capturas de Power BI
 
-| Archivo | Cómo obtenerlo |
-| --- | --- |
-| `Evidencias/10_Bono_Referencial.png` | Abrir la segunda página y capturar ambas tablas con sus importes y aviso de simulación. |
+Ya están publicadas en `03_Vistas_PowerBI`:
 
-La segunda página existe en el archivo PBIX. El informe escrito incluye la fórmula y la tabla de resultados del bono; no presenta una captura inexistente como evidencia de ejecución.
+- [Reporte por rendimiento.png](../03_Vistas_PowerBI/Reporte%20por%20rendimiento.png).
+- [Bono por efectividad.png](../03_Vistas_PowerBI/Bono%20por%20efectividad.png).
+- [06_Modelo_PowerBI.png](../03_Vistas_PowerBI/06_Modelo_PowerBI.png).
+
+Se conservan sus nombres y ubicaciones. La captura del bono muestra los importes y el aviso de simulación.
 
 En la versión revisada, `Bono_por_efectividad.pbix` y `Reporte_Rendimiento_Personal.pbix` tienen el mismo contenido. Para la entrega se utiliza el segundo nombre; ambas copias se conservan.
 
@@ -33,3 +35,9 @@ Esta revisión no ejecutó Power BI Desktop ni una conexión en vivo. Antes de e
 ## Fuera del cierre de GitHub
 
 El PPT queda a cargo del equipo. El guion detallado se prepara el viernes: cinco minutos de PPT y diez de demostración. El informe escrito se entrega aparte. No hace falta añadir más páginas al dashboard para este alcance.
+
+## Carga en otra computadora
+
+Se añadieron `01_Base_Datos/04_Cargar_Simulacion.sql` y `05_Comprobar_Simulacion.sql`. La instalación, carga y repetición se comprobaron de nuevo en SQL Server 2022 Developer aislado; los resultados están en [Resultados_Carga_Simulacion.txt](Evidencias/Resultados_Carga_Simulacion.txt).
+
+La guía actual está en [14_Simulacion_Otra_Computadora.md](14_Simulacion_Otra_Computadora.md). La revisión de PBIX y capturas no sustituye abrir Power BI Desktop y comprobar la conexión del equipo de clase.

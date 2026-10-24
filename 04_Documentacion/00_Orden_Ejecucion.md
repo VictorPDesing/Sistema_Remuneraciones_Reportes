@@ -1,47 +1,31 @@
-# Orden de ejecución
+# Orden de ejecución de la simulación
 
-La guía de principio a fin, con el padrón y las páginas de Power BI, está en [09_Guia_Completa.md](09_Guia_Completa.md).
+GitHub contiene scripts y reportes. Cada integrante debe ejecutar la instalación en su propio SQL Server; descargar el repositorio no copia una base ya cargada.
 
-## Archivos
+## Instalación desde cero
 
-| Carpeta | Contenido |
-| --- | --- |
-| `01_Base_Datos` | Origen de la empresa y creación del Data Mart. |
-| `02_Procedimientos_Almacenados` | Procedimiento ETL y vistas SQL de consulta. |
-| `03_Vistas_PowerBI` | Dashboard `.pbix` y sus exportaciones a PDF o imágenes. Se conserva el nombre de carpeta del proyecto. |
-| `04_Documentacion` | Reglas, medidas DAX, validaciones, modelo y evidencias. |
+Abrir cada archivo completo en SSMS y ejecutarlo con **F5**, sin seleccionar solo unas líneas:
 
-## Si solo está creado el origen
+| Paso | Archivo | Resultado |
+| --- | --- | --- |
+| 1 | [01_Estructura_y_Datos.sql](../01_Base_Datos/01_Estructura_y_Datos.sql) | Crea y llena `A&SG_OLTP`: diez trabajadores, 582 asistencias y 582 tareas. |
+| 2 | [02_Creacion_Data_Mart.sql](../01_Base_Datos/02_Creacion_Data_Mart.sql) | Crea las dimensiones y hechos **todavía vacíos**. Ejecutar una sola vez. |
+| 3 | [02_Procedimiento_ETL.sql](../02_Procedimientos_Almacenados/02_Procedimiento_ETL.sql) | Instala `dbo.usp_cargar_rendimiento`; todavía no carga datos. |
+| 4 | [03_Vistas_PowerBI.sql](../02_Procedimientos_Almacenados/03_Vistas_PowerBI.sql) | Crea las vistas de consulta. |
+| 5 | [04_Cargar_Simulacion.sql](../01_Base_Datos/04_Cargar_Simulacion.sql) | **Ejecuta el ETL** y llena el Data Mart. |
+| 6 | [05_Comprobar_Simulacion.sql](../01_Base_Datos/05_Comprobar_Simulacion.sql) | Muestra servidor, cantidades, bitácora, indicadores y duplicados. No modifica datos. |
 
-Abrir una consulta nueva en SSMS y ejecutar los archivos completos en este orden:
+El período inicial es julio–septiembre de 2026. No repetir la creación del Data Mart si ya existe; no borrar tablas para volver a cargar.
 
-1. `01_Base_Datos/02_Creacion_Data_Mart.sql`.
-2. `02_Procedimientos_Almacenados/02_Procedimiento_ETL.sql`.
-3. `02_Procedimientos_Almacenados/03_Vistas_PowerBI.sql`.
-4. `04_Documentacion/01_Validacion_ETL.sql`.
+## Si ya ejecutaste los dos primeros archivos
 
-La creación del Data Mart se ejecuta **una sola vez**. Contiene `CREATE DATABASE` y `CREATE TABLE` directos; si la base ya existe, no volver a ejecutar ese archivo. Los scripts de procedimiento y vistas usan `CREATE OR ALTER` para poder actualizarlos.
+Continuar desde el **paso 3**. Es normal que `SELECT * FROM dbo.fac_rendimiento_kpis` esté vacío antes del paso 5.
 
-## Si ya está instalado el Data Mart
+Si ya están instalados el procedimiento y las vistas, ejecutar únicamente los pasos **5 y 6**. Una carga a la vez, sin otra transacción abierta. El procedimiento reemplaza los hechos del intervalo dentro de una transacción; repetirlo no acumula las cantidades.
 
-Se conservan las tablas y sus columnas. No borrar bases ni volver a ejecutar la creación.
+Para comprobar la repetición, ejecutar después [01_Validacion_ETL.sql](01_Validacion_ETL.sql): realiza dos cargas y compara sus medidas. No es un requisito adicional para que el paso 5 cargue los datos.
 
-Para alinear una instalación anterior con el padrón original, seguir [08_Padron_Trabajadores.md](08_Padron_Trabajadores.md): actualizar primero el procedimiento ETL, ejecutar `01_Base_Datos/03_Alinear_Personal_Origen.sql` y después la validación. El script de alineación está destinado a instalaciones existentes; no hace falta ejecutarlo al crear desde cero con el generador actual.
-
-Para actualizar los datos después:
-
-```sql
-USE [A&SG_DataMart];
-GO
-EXEC dbo.usp_cargar_rendimiento '20260701', '20260930';
-GO
-```
-
-Ejecutar una carga a la vez, desde una sesión sin otra transacción abierta. El procedimiento sustituye los hechos del intervalo dentro de una transacción y registra su resultado en `bitacora_etl`. Las dimensiones se actualizan con `UPDATE`, `INSERT` y `NOT EXISTS`. El calendario se completa con un `WHILE`.
-
-## Qué revisar
-
-El script de validación ejecuta dos cargas y comprueba que sus medidas sean iguales. Después muestra diez trabajadores, una consulta de duplicados que debe estar vacía, las cantidades del origen y destino y los indicadores mensuales.
+## Resultados esperados del conjunto inicial
 
 | Mes de 2026 | Asistencias | Tareas |
 | --- | ---: | ---: |
@@ -50,14 +34,12 @@ El script de validación ejecuta dos cargas y comprueba que sus medidas sean igu
 | Septiembre | 193 | 193 |
 | Total | 582 | 582 |
 
-La última carga debe estar `Completada`, con cero rechazos. Deben existir treinta resúmenes de trabajador y mes. Si aparece `Con rechazos`, consultar `rechazos_etl`, corregir los datos correspondientes y volver a cargar el período. Las cantidades anteriores corresponden al conjunto simulado inicial, no a cualquier origen futuro.
+También deben aparecer diez trabajadores, treinta resúmenes mensuales, 1.164 filas de hechos, cero grupos duplicados y una última carga `Completada` con cero rechazos. Los identificadores de filas y cargas pueden variar entre computadoras.
 
-## Modelo y dashboard
+Si aparece `Con rechazos`, revisar `rechazos_etl` antes de comparar con estas cantidades. Si el origen cambió, sus resultados pueden ser distintos del conjunto inicial.
 
-El modelo estrella se crea físicamente con las cuatro dimensiones y las claves foráneas de `fac_rendimiento_kpis`. Para dibujarlo y tomar la captura en SSMS, seguir [07_Modelo_Estrella_SSMS.md](07_Modelo_Estrella_SSMS.md).
+## Instalaciones anteriores
 
-Para conectar Power BI, seguir [03_Guia_PowerBI.md](03_Guia_PowerBI.md). Guardar el informe terminado en `03_Vistas_PowerBI/Reporte_Rendimiento_Personal.pbix`. Esa carpeta está reservada para los entregables visuales; los scripts SQL están en `02_Procedimientos_Almacenados`.
+[03_Alinear_Personal_Origen.sql](../01_Base_Datos/03_Alinear_Personal_Origen.sql) solo se utiliza para corregir el padrón de una instalación anterior. No hace falta en una instalación nueva con el generador vigente. Seguir [08_Padron_Trabajadores.md](08_Padron_Trabajadores.md) si los nombres todavía no coinciden.
 
-El informe de entrega ya contiene las páginas **Rendimiento del personal** y **Bono por efectividad**. Para abrirlo en otra computadora, seguir la sección correspondiente de `03_Guia_PowerBI.md`.
-
-Los resultados reales de validación y las capturas se organizan dentro de `04_Documentacion/Evidencias`. El inventario y las capturas que faltan se mantienen en [12_Estado_Entrega.md](12_Estado_Entrega.md).
+Para abrir Power BI y resolver una tabla vacía, seguir [14_Simulacion_Otra_Computadora.md](14_Simulacion_Otra_Computadora.md). La guía general está en [09_Guia_Completa.md](09_Guia_Completa.md).

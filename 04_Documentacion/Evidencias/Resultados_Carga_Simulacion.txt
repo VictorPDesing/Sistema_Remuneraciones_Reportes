@@ -1,0 +1,238 @@
+Verificación de la simulación BI
+Fecha: 2026-10-23T21:58:41.728905-05:00
+Zona horaria: encabezado America/Bogota; el SQL Server del contenedor registra sus horas en UTC.
+Entorno: SQL Server 2022 Developer aislado. No se ejecutó Power BI Desktop.
+
+Consulta de control
+version_sql|edicion
+-----------|-------
+16.0.4305.5|Developer Edition (64-bit)
+
+Archivo: 01_Base_Datos/01_Estructura_y_Datos.sql
+Anio|Mes|Total_Asistencias|Llegadas_A_Tiempo|Tardanzas
+----|---|-----------------|-----------------|---------
+2026|7|203|188|15
+2026|8|186|171|15
+2026|9|193|177|16
+Changed database context to 'master'.
+Changed database context to 'A&SG_OLTP'.
+
+Archivo: 01_Base_Datos/01_Estructura_y_Datos.sql
+Anio|Mes|Total_Asistencias|Llegadas_A_Tiempo|Tardanzas
+----|---|-----------------|-----------------|---------
+2026|7|203|188|15
+2026|8|186|171|15
+2026|9|193|177|16
+Changed database context to 'master'.
+Changed database context to 'A&SG_OLTP'.
+
+Archivo: 01_Base_Datos/02_Creacion_Data_Mart.sql
+(1 rows affected)
+
+(1 rows affected)
+Changed database context to 'master'.
+Changed database context to 'A&SG_DataMart'.
+
+Consulta de control
+hechos_antes_del_etl
+--------------------
+0
+
+(1 rows affected)
+Changed database context to 'A&SG_DataMart'.
+
+Control de prerrequisitos: error 50303 al intentar cargar sin instalar el procedimiento. Sin carga realizada.
+
+Archivo: 02_Procedimientos_Almacenados/02_Procedimiento_ETL.sql
+Changed database context to 'A&SG_DataMart'.
+
+Archivo: 02_Procedimientos_Almacenados/03_Vistas_PowerBI.sql
+Changed database context to 'A&SG_DataMart'.
+
+Archivo: 01_Base_Datos/04_Cargar_Simulacion.sql
+id_carga|fecha_desde|fecha_hasta|inicio|fin|estado|asistencias_extraidas|tareas_extraidas|registros_rechazados|filas_cargadas|mensaje
+--------|-----------|-----------|------|---|------|---------------------|----------------|--------------------|--------------|-------
+1|2026-07-01|2026-09-30|2026-10-24 02:58:40|2026-10-24 02:58:40|Completada|582|582|0|1164|NULL
+servidor|base_actual
+--------|-----------
+f15b1087ec5a|A&SG_DataMart
+filas_hechos|total_asistencias|total_tareas
+------------|-----------------|------------
+1164|582|582
+Changed database context to 'A&SG_DataMart'.
+
+Archivo: 01_Base_Datos/05_Comprobar_Simulacion.sql
+servidor|base_actual
+--------|-----------
+f15b1087ec5a|A&SG_DataMart
+concepto|cantidad
+--------|--------
+Asistencias OLTP|582
+Tareas OLTP|582
+Trabajadores del Data Mart|10
+Filas de hechos del trimestre|1164
+id_carga|fecha_desde|fecha_hasta|inicio|fin|estado|asistencias_extraidas|tareas_extraidas|registros_rechazados|filas_cargadas|mensaje
+--------|-----------|-----------|------|---|------|---------------------|----------------|--------------------|--------------|-------
+1|2026-07-01|2026-09-30|2026-10-24 02:58:40|2026-10-24 02:58:40|Completada|582|582|0|1164|NULL
+anio|mes|asistencias|tareas
+----|---|-----------|------
+2026|7|203|203
+2026|8|186|186
+2026|9|193|193
+id_trabajador|id_tiempo|id_proyecto|id_administrador|repeticiones
+-------------|---------|-----------|----------------|------------
+nombre_completo|mes|total_asistencias|total_tareas|tpa|ict|tdt|iep
+---------------|---|-----------------|------------|---|---|---|---
+Adonis Vasquez|7|23|23|100.00|69.57|.00|84.78
+Adonis Vasquez|8|21|21|100.00|85.71|.00|92.86
+Adonis Vasquez|9|22|22|100.00|81.82|.00|90.91
+Benjamin Alfonso|7|14|14|100.00|92.86|.00|96.43
+Benjamin Alfonso|8|13|13|92.31|100.00|.00|97.69
+Benjamin Alfonso|9|13|13|92.31|92.31|.00|93.85
+Celeste Lechuga|7|23|23|100.00|73.91|.00|86.96
+Celeste Lechuga|8|21|21|100.00|71.43|.00|85.71
+Celeste Lechuga|9|22|22|100.00|63.64|.00|81.82
+Marco Coila|7|23|23|100.00|56.52|.00|78.26
+Marco Coila|8|21|21|100.00|57.14|.00|78.57
+Marco Coila|9|22|22|100.00|50.00|.00|75.00
+Kevin Vega|7|23|23|100.00|60.87|.00|80.43
+Kevin Vega|8|21|21|100.00|52.38|.00|76.19
+Kevin Vega|9|22|22|100.00|50.00|.00|75.00
+Fiorella Alarcon|7|23|23|100.00|56.52|.00|78.26
+Fiorella Alarcon|8|21|21|100.00|52.38|.00|76.19
+Fiorella Alarcon|9|22|22|100.00|54.55|.00|77.27
+Alejandro Guzman|7|23|23|100.00|52.17|.00|76.09
+Alejandro Guzman|8|21|21|100.00|57.14|.00|78.57
+Alejandro Guzman|9|22|22|100.00|54.55|.00|77.27
+Israel Rodrigo Ochoa Mejia|7|14|14|35.71|.00|50.00|20.71
+Israel Rodrigo Ochoa Mejia|8|13|13|46.15|.00|53.85|23.08
+Israel Rodrigo Ochoa Mejia|9|13|13|38.46|.00|46.15|22.31
+Edu Cruz|7|23|23|100.00|56.52|.00|78.26
+Edu Cruz|8|21|21|100.00|47.62|.00|73.81
+Edu Cruz|9|22|22|100.00|59.09|.00|79.55
+Matias Sebastian Moreno Rodriguez|7|14|14|57.14|35.71|.00|55.00
+Matias Sebastian Moreno Rodriguez|8|13|13|46.15|38.46|.00|53.08
+Matias Sebastian Moreno Rodriguez|9|13|13|46.15|15.38|.00|41.54
+asistencias|tareas|tpa|ict|tdt|iep
+-----------|------|---|---|---|---
+582|582|92.10|56.36|3.44|75.12
+tipo_fila|filas
+---------|-----
+Asistencia y calendario|582
+Tareas|582
+Changed database context to 'A&SG_DataMart'.
+
+Archivo: 04_Documentacion/01_Validacion_ETL.sql
+id_carga|fecha_desde|fecha_hasta|inicio|fin|estado|asistencias_extraidas|tareas_extraidas|registros_rechazados|filas_cargadas|mensaje
+--------|-----------|-----------|------|---|------|---------------------|----------------|--------------------|--------------|-------
+2|2026-07-01|2026-09-30|2026-10-24 02:58:41|2026-10-24 02:58:41|Completada|582|582|0|1164|NULL
+
+(1164 rows affected)
+id_carga|fecha_desde|fecha_hasta|inicio|fin|estado|asistencias_extraidas|tareas_extraidas|registros_rechazados|filas_cargadas|mensaje
+--------|-----------|-----------|------|---|------|---------------------|----------------|--------------------|--------------|-------
+3|2026-07-01|2026-09-30|2026-10-24 02:58:41|2026-10-24 02:58:41|Completada|582|582|0|1164|NULL
+total_trabajadores
+------------------
+10
+
+(1 rows affected)
+id_trabajador|id_tiempo|id_proyecto|id_administrador|repeticiones
+-------------|---------|-----------|----------------|------------
+
+(0 rows affected)
+mes|asistencias_origen|asistencias_destino|tareas_origen|tareas_destino
+---|------------------|-------------------|-------------|--------------
+7|203|203|203|203
+8|186|186|186|186
+9|193|193|193|193
+
+(3 rows affected)
+nombre_completo|mes|total_asistencias|total_tareas|tpa|ict|tdt|iep
+---------------|---|-----------------|------------|---|---|---|---
+Adonis Vasquez|7|23|23|100.00|69.57|.00|84.78
+Adonis Vasquez|8|21|21|100.00|85.71|.00|92.86
+Adonis Vasquez|9|22|22|100.00|81.82|.00|90.91
+Benjamin Alfonso|7|14|14|100.00|92.86|.00|96.43
+Benjamin Alfonso|8|13|13|92.31|100.00|.00|97.69
+Benjamin Alfonso|9|13|13|92.31|92.31|.00|93.85
+Celeste Lechuga|7|23|23|100.00|73.91|.00|86.96
+Celeste Lechuga|8|21|21|100.00|71.43|.00|85.71
+Celeste Lechuga|9|22|22|100.00|63.64|.00|81.82
+Marco Coila|7|23|23|100.00|56.52|.00|78.26
+Marco Coila|8|21|21|100.00|57.14|.00|78.57
+Marco Coila|9|22|22|100.00|50.00|.00|75.00
+Kevin Vega|7|23|23|100.00|60.87|.00|80.43
+Kevin Vega|8|21|21|100.00|52.38|.00|76.19
+Kevin Vega|9|22|22|100.00|50.00|.00|75.00
+Fiorella Alarcon|7|23|23|100.00|56.52|.00|78.26
+Fiorella Alarcon|8|21|21|100.00|52.38|.00|76.19
+Fiorella Alarcon|9|22|22|100.00|54.55|.00|77.27
+Alejandro Guzman|7|23|23|100.00|52.17|.00|76.09
+Alejandro Guzman|8|21|21|100.00|57.14|.00|78.57
+Alejandro Guzman|9|22|22|100.00|54.55|.00|77.27
+Israel Rodrigo Ochoa Mejia|7|14|14|35.71|.00|50.00|20.71
+Israel Rodrigo Ochoa Mejia|8|13|13|46.15|.00|53.85|23.08
+Israel Rodrigo Ochoa Mejia|9|13|13|38.46|.00|46.15|22.31
+Edu Cruz|7|23|23|100.00|56.52|.00|78.26
+Edu Cruz|8|21|21|100.00|47.62|.00|73.81
+Edu Cruz|9|22|22|100.00|59.09|.00|79.55
+Matias Sebastian Moreno Rodriguez|7|14|14|57.14|35.71|.00|55.00
+Matias Sebastian Moreno Rodriguez|8|13|13|46.15|38.46|.00|53.08
+Matias Sebastian Moreno Rodriguez|9|13|13|46.15|15.38|.00|41.54
+
+(30 rows affected)
+id_carga|fecha_desde|fecha_hasta|inicio|fin|estado|asistencias_extraidas|tareas_extraidas|registros_rechazados|filas_cargadas|mensaje|duracion_segundos
+--------|-----------|-----------|------|---|------|---------------------|----------------|--------------------|--------------|-------|-----------------
+3|2026-07-01|2026-09-30|2026-10-24 02:58:41|2026-10-24 02:58:41|Completada|582|582|0|1164|NULL|0
+2|2026-07-01|2026-09-30|2026-10-24 02:58:41|2026-10-24 02:58:41|Completada|582|582|0|1164|NULL|0
+
+(2 rows affected)
+resultado
+---------
+Las dos cargas conservan los mismos datos
+
+(1 rows affected)
+Changed database context to 'A&SG_DataMart'.
+
+Consulta de control
+resultado
+---------
+Controles de instalacion y repeticion correctos
+Changed database context to 'A&SG_DataMart'.
+
+Consulta de control
+(582 rows affected)
+
+(582 rows affected)
+Changed database context to 'A&SG_OLTP'.
+
+Control de prerrequisitos: error 50304 al intentar cargar sin instalar el procedimiento. Sin carga realizada.
+
+Consulta de control
+resultado
+---------
+Origen vacio: se conserva el destino anterior
+
+(1 rows affected)
+Changed database context to 'A&SG_DataMart'.
+
+Archivo: 01_Base_Datos/01_Estructura_y_Datos.sql
+Anio|Mes|Total_Asistencias|Llegadas_A_Tiempo|Tardanzas
+----|---|-----------------|-----------------|---------
+2026|7|203|188|15
+2026|8|186|171|15
+2026|9|193|177|16
+Changed database context to 'master'.
+Changed database context to 'A&SG_OLTP'.
+
+Archivo: 01_Base_Datos/04_Cargar_Simulacion.sql
+id_carga|fecha_desde|fecha_hasta|inicio|fin|estado|asistencias_extraidas|tareas_extraidas|registros_rechazados|filas_cargadas|mensaje
+--------|-----------|-----------|------|---|------|---------------------|----------------|--------------------|--------------|-------
+4|2026-07-01|2026-09-30|2026-10-24 02:58:42|2026-10-24 02:58:42|Completada|582|582|0|1164|NULL
+servidor|base_actual
+--------|-----------
+f15b1087ec5a|A&SG_DataMart
+filas_hechos|total_asistencias|total_tareas
+------------|-----------------|------------
+1164|582|582
+Changed database context to 'A&SG_DataMart'.

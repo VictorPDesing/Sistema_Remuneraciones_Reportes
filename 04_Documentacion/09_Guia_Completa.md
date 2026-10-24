@@ -10,7 +10,10 @@ En SSMS, ejecutar completos con F5 estos archivos, en orden:
 2. `01_Base_Datos/02_Creacion_Data_Mart.sql`.
 3. `02_Procedimientos_Almacenados/02_Procedimiento_ETL.sql`.
 4. `02_Procedimientos_Almacenados/03_Vistas_PowerBI.sql`.
-5. `04_Documentacion/01_Validacion_ETL.sql`.
+5. `01_Base_Datos/04_Cargar_Simulacion.sql`.
+6. `01_Base_Datos/05_Comprobar_Simulacion.sql`.
+
+Los archivos de creación y del procedimiento no ejecutan el ETL. La carga ocurre en el paso 5; por eso, detenerse después de crear las dos bases deja los hechos vacíos.
 
 El segundo archivo crea el Data Mart y se ejecuta una sola vez. No repetirlo si la base ya existe. El padrón usa los nombres del archivo original; los registros de julio a septiembre son datos simulados para el trabajo académico.
 
@@ -20,7 +23,7 @@ No borrar tablas ni crear otra vez las bases. Para actualizar el procedimiento o
 
 Si todavía se tiene la versión anterior del padrón, hacer una copia de seguridad y seguir [08_Padron_Trabajadores.md](08_Padron_Trabajadores.md). Si los diez nombres ya son correctos, no hace falta repetir la corrección.
 
-Para cargar otra vez el trimestre:
+Para cargar otra vez el trimestre, ejecutar `01_Base_Datos/04_Cargar_Simulacion.sql`. También se puede usar:
 
 ```sql
 USE [A&SG_DataMart];
@@ -33,7 +36,7 @@ El procedimiento toma los datos, limpia textos, revisa errores y carga el result
 
 ## 3. Revisar los resultados
 
-Ejecutar `04_Documentacion/01_Validacion_ETL.sql`. Debe mostrar diez trabajadores, ninguna fila en la consulta de duplicados y una carga completada sin rechazos.
+Ejecutar `01_Base_Datos/05_Comprobar_Simulacion.sql`. Para verificar además la repetición, ejecutar `04_Documentacion/01_Validacion_ETL.sql`, que realiza dos cargas. Debe mostrar diez trabajadores, ninguna fila en la consulta de duplicados y una carga completada sin rechazos.
 
 | Mes de 2026 | Asistencias | Tareas |
 | --- | ---: | ---: |
@@ -41,6 +44,8 @@ Ejecutar `04_Documentacion/01_Validacion_ETL.sql`. Debe mostrar diez trabajadore
 | Agosto | 186 | 186 |
 | Septiembre | 193 | 193 |
 | Total | 582 | 582 |
+
+Deben existir **1.164 filas de hechos**, con 582 asistencias y 582 tareas al sumar sus columnas. Las filas de asistencia tienen las medidas de tareas en cero; las tareas están en filas separadas. No son 1.164 trabajadores.
 
 Las cantidades del origen y del Data Mart deben coincidir. Hay treinta resúmenes: uno por trabajador y mes. Las tres filas de cada persona no son empleados duplicados.
 
@@ -78,8 +83,10 @@ Guardar las versiones actualizadas con el mismo nombre `Reporte_Rendimiento_Pers
 - `05_Conciliacion_Idempotencia.png`: ejecución del ETL y comprobación de las cargas.
 - `03_Vistas_PowerBI/06_Modelo_PowerBI.png`: relaciones en Power BI; ya está incluida y se conserva esa ubicación.
 - `07_Rendimiento_Personal.png`: primera página.
-- `10_Bono_Referencial.png`: captura complementaria de la segunda página, aún no subida.
+- `03_Vistas_PowerBI/Bono por efectividad.png`: segunda página; ya está publicada.
 
 Subir los archivos con **Add file → Upload files** y registrar el cambio en `05_Registro_Cambios.md`. Consultar [12_Estado_Entrega.md](12_Estado_Entrega.md) para ver qué está incluido y qué falta.
 
 La presentación tiene cinco minutos de PPT y diez de ejecución y demostración. El guion se preparará el viernes. El informe escrito se entrega aparte y no se expone.
+
+Para instalar en otra computadora y revisar por qué una tabla está vacía, usar [14_Simulacion_Otra_Computadora.md](14_Simulacion_Otra_Computadora.md).

@@ -25,7 +25,7 @@ El resumen mensual tiene tres filas por trabajador, una por cada mes. Las treint
 
 ## Qué representa cada fila y cómo se relacionan las tablas
 
-![Modelo estrella obtenido de SQL Server](Modelo_Estrella.svg)
+![Modelo estrella obtenido de SQL Server](Evidencias/03_Modelo_Estrella_SSMS.png)
 
 Una fila de `fac_rendimiento_kpis` representa **trabajador + fecha + proyecto + administrador**. Cada dimensión tiene una clave interna; las dimensiones de personas y proyectos conservan también el identificador del origen. La combinación de las cuatro claves es única.
 

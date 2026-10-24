@@ -10,7 +10,7 @@ Las capturas se obtienen al ejecutar el trabajo. No se reemplazan por imágenes 
 | `05_Conciliacion_Idempotencia.png` | Ejecuciones ETL, bitácora, cantidades iguales y repetición sin duplicados. | Incluido; también acredita la ejecución del ETL. |
 | `03_Vistas_PowerBI/06_Modelo_PowerBI.png` | Relaciones uno a varios, activas y con dirección única en Power BI. | Incluido en la carpeta del reporte; se conserva su ubicación. |
 | `07_Rendimiento_Personal.png` | Seis tarjetas, filtros y barras por trabajador. | Incluido. |
-| `10_Bono_Referencial.png` | Comparación de mayor y menor IEP con supuestos monetarios visibles. | Captura complementaria aún no subida; la página existe en el PBIX. |
+| `03_Vistas_PowerBI/Bono por efectividad.png` | Comparación de mayor y menor IEP con supuestos monetarios visibles. | Incluido; se conserva el nombre publicado. |
 
 Las capturas del padrón y de las cantidades del origen pueden añadirse como complemento. Las páginas de asistencia y tareas por proyecto son ampliaciones opcionales y no forman parte del informe de dos páginas. No es necesario crear capturas de páginas que no se entregan.
 

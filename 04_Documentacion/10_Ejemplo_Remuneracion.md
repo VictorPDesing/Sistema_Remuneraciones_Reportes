@@ -29,7 +29,7 @@ Las medidas de bono y remuneración quedan vacías si el contexto no identifica 
 5. En filtros de ese visual, seleccionar `nombre_completo`, tipo **Top N**, opción **Superior / Top**, cantidad 1, por valor `[IEP]`. Aplicar el filtro. Título: **Mayor efectividad del período**.
 6. Duplicar la tabla y cambiar el filtro a **Inferior / Bottom**, cantidad 1, por `[IEP]`. Título: **Menor efectividad del período**.
 7. Desactivar los totales de ambas tablas. No escribir nombres manualmente ni fijarlos mediante filtros: la selección debe responder al IEP del período.
-8. Guardar una captura como `04_Documentacion/Evidencias/10_Bono_Referencial.png`.
+8. Si se genera una nueva captura, registrar sus filtros y fecha. Ya existe `03_Vistas_PowerBI/Bono por efectividad.png`; se conserva su ubicación.
 
 ## Resultado de referencia del trimestre
 
