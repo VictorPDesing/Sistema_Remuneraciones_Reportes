@@ -1,7 +1,6 @@
 USE [A&SG_OLTP];
 GO
 
--- Opciones requeridas por el índice de Fecha_Calculada.
 SET ANSI_NULLS ON;
 SET QUOTED_IDENTIFIER ON;
 SET ANSI_WARNINGS ON;
